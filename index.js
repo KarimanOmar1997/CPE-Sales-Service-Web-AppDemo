@@ -562,6 +562,7 @@ require([
      featureTableHPSMTickets.highlightIds.removeAll();
      featureTableTwors.highlightIds.removeAll();
      featureTablePOS.highlightIds.removeAll();
+     featureTableProductListTable.highlightIds.removeAll();
      document.getElementById("Data_Container_By_Select").innerHTML =" "
      layerBlockArray.forEach((block) => {
        while (block.lastElementChild) {
@@ -2721,6 +2722,7 @@ require([
    featureTableHPSMTickets.highlightIds.removeAll();
    featureTableTwors.highlightIds.removeAll();
    featureTablePOS.highlightIds.removeAll();
+   featureTableProductListTable.highlightIds.removeAll();
 
    candidate = response.results.find((result) => {
     // console.log("result::",result);
