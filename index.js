@@ -3028,7 +3028,7 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
         });
       }
     }
-    else if(candidate.layer.title == "POS_Layers_V2_WFL1"){
+    else if(candidate.layer.title == "POSs"){
       if (featureTablePOS.highlightIds.includes(objectId)) {
         // Remove feature from current selection if feature
         // is already added to highlightIds collection
