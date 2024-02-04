@@ -111,7 +111,7 @@ require([
  console.log("to get 4 :",map.layers.getItemAt(4).title);
  console.log("to get 5 :",map.layers.getItemAt(5).title);
  console.log("to get 6 :",map.layers.getItemAt(6).title);
- console.log("to get 7 :",map.layers.getItemAt(7).title);
+//  console.log("to get 7 :",map.layers.getItemAt(7).title);
 //  console.log("to get 8 :",map.layers.getItemAt(8).title);
 //  console.log("to get 9 :",map.layers.getItemAt(9).title);
 //  console.log("to get 10 :",map.layers.getItemAt(10).title);
@@ -292,7 +292,7 @@ map.layers.getItemAt(3).popupTemplate= {
      },
    ]
 }
- map.layers.getItemAt(6).popupTemplate= {
+ map.layers.getItemAt(5).popupTemplate= {
    title: "{phone_number}",
    outFields: ["*"],
    returnGeometry: true,
@@ -606,7 +606,7 @@ var NetworkCoverageNetworkType
      placeholder: "example: BAG0400"
    },
   //  {
-  //    layer: map.layers.getItemAt(6) ,
+  //    layer: map.layers.getItemAt(5) ,
   //    searchFields: ["phone_number"],
   //    displayField: "phone_number",
   //    exactMatch: false,
@@ -764,7 +764,7 @@ var NetworkCoverageNetworkType
  
  typeSelect.addEventListener("change", async() => {
    const value = typeSelect.value;
-     const layer = map.layers.getItemAt(6);
+     const layer = map.layers.getItemAt(5);
      await layer.load();
      // Create an array of layerViews to be able to highlight selected features.
      if (layer.type === "feature") {
@@ -1465,7 +1465,7 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
  
  // ========================================charts==============================================
  
- const layer = map.layers.getItemAt(6);
+ const layer = map.layers.getItemAt(5);
  // console.log(layer);
  await layer.load();
  let layerView = await view.whenLayerView(layer);
@@ -1834,8 +1834,8 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
  // ===========================================================tables========================================
  
  const featureLayerTwors = map.layers.getItemAt(4); // Grabs the first layer in the map
- const featureLayerHPSMTickets = map.layers.getItemAt(6); // Grabs the first layer in the map
- const featureLayerPOS = map.layers.getItemAt(7); // Grabs the first layer in the map
+ const featureLayerHPSMTickets = map.layers.getItemAt(5); // Grabs the first layer in the map
+ const featureLayerPOS = map.layers.getItemAt(6); // Grabs the first layer in the map
 
  featureLayerTwors.title = "Sites";
  featureLayerHPSMTickets.title = "HPSM Tickets";
@@ -2957,10 +2957,10 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
        result.graphic.layer === featureLayerTwors 
      }
 
-     else if (result.graphic.layer === map.layers.getItemAt(7)){
+     else if (result.graphic.layer === map.layers.getItemAt(6)){
       return result.graphic &&
       result.graphic.layer &&
-        result.graphic.layer === map.layers.getItemAt(7) 
+        result.graphic.layer === map.layers.getItemAt(6) 
   
      }
 
