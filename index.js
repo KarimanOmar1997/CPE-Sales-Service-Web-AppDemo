@@ -583,6 +583,7 @@ var NetworkCoverageNetworkType
      featureTableTwors.highlightIds.removeAll();
      featureTablePOS.highlightIds.removeAll();
      featureTableProductList.highlightIds.removeAll();
+     featureTableNetworkCoverage.highlightIds.removeAll();
      document.getElementById("Data_Container_By_Select").innerHTML =" "
      layerBlockArray.forEach((block) => {
        while (block.lastElementChild) {
@@ -1836,6 +1837,7 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
  const featureLayerTwors = map.layers.getItemAt(4); // Grabs the first layer in the map
  const featureLayerHPSMTickets = map.layers.getItemAt(5); // Grabs the first layer in the map
  const featureLayerPOS = map.layers.getItemAt(6); // Grabs the first layer in the map
+ const featureLayerNetworkCoverage = map.layers.getItemAt(3); // Grabs the first layer in the map
 
  featureLayerTwors.title = "Sites";
  featureLayerHPSMTickets.title = "HPSM Tickets";
@@ -1843,6 +1845,7 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
  featureLayerOutagesData.title = "OutagesData";
  featureLayerProductList.title = "Product List";
  featureLayerOffers.title = "Offers";
+ featureLayerNetworkCoverage.title = "Network Coverage";
  
  // Create the feature table
  const featureTableTwors = new FeatureTable({
@@ -2834,6 +2837,103 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
    },
    container: document.getElementById("tableDiv-Offers")
  });
+ const featureTableNetworkCoverage = new FeatureTable({
+  view: view, // Required for feature highlight to work
+  layer: featureLayerNetworkCoverage,
+  visibleElements: {
+    // Autocast to VisibleElements
+    menuItems: {
+      clearSelection: true,
+      refreshData: true,
+      toggleColumns: true,
+      selectedRecordsShowAllToggle: true,
+      selectedRecordsShowSelectedToggle: true,
+      zoomToSelection: true
+    }
+  },
+  tableTemplate: {
+    // Autocast to TableTemplate
+    columnTemplates: [
+      // Takes an array of FieldColumnTemplate and GroupColumnTemplate
+      {
+        // Autocast to FieldColumnTemplate.
+        type: "field",
+        fieldName: "site_id",
+        label: "Site ID",
+        // direction: "des"
+      },
+      {
+        type: "field",
+        fieldName: "site_name",
+        label: "Site Name"
+      },
+      {
+        type: "field",
+        fieldName: "total_no_customer",
+        label: "Total No Customer"
+      },
+      {
+        type: "field",
+        fieldName: "site_type",
+        label: "Site Type"
+      },
+      {
+        type: "field",
+        fieldName: "covergae_area_id",
+        label: "Covergae Area ID"
+      }
+      ,
+      {
+        type: "field",
+        fieldName: "coverage_status",
+        label: "Coverage Status"
+      }
+      ,
+      {
+        type: "field",
+        fieldName: "coverage_status_date_time",
+        label: "Coverage Status Date Time"
+      }
+      ,
+      {
+        type: "field",
+        fieldName: "coverage_location",
+        label: "Coverage Location"
+      }
+      ,
+      {
+        type: "field",
+        fieldName: "cgi",
+        label: "CGI"
+      }
+      ,
+      {
+        type: "field",
+        fieldName: "outage",
+        label: "Outage"
+      }
+      ,
+      {
+        type: "field",
+        fieldName: "maintentance",
+        label: "Maintentance"
+      }
+      ,
+      {
+        type: "field",
+        fieldName: "network_type",
+        label: "Network Type"
+      }
+      ,
+      {
+        type: "field",
+        fieldName: "gov",
+        label: "GOV"
+      }
+    ]
+  },
+  container: document.getElementById("tableDiv-network-coverage")
+});
 
         // featureTableProductList.highlightIds.on("change", (event) => {
         //   console.log("features selected", event.added);
@@ -2926,6 +3026,7 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
      featureTableTwors.filterGeometry = view.extent;
      featureTableHPSMTickets.filterGeometry = view.extent;
      featureTablePOS.filterGeometry = view.extent;
+     featureTableNetworkCoverage.filterGeometry = view.extent;
     
    },
    {
@@ -2941,6 +3042,7 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
    featureTableHPSMTickets.highlightIds.removeAll();
    featureTableTwors.highlightIds.removeAll();
    featureTablePOS.highlightIds.removeAll();
+   featureTableNetworkCoverage.highlightIds.removeAll();
 
 
    candidate = response.results.find((result) => {
@@ -3005,6 +3107,20 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
         // Add this feature to the featureTableTwors highlightIds collection
       }
     }
+    else if(candidate.layer.title == "Network Coverage"){
+
+      
+          if (featureTableNetworkCoverage.highlightIds.includes(objectId)) {
+            // Remove feature from current selection if feature
+            // is already added to highlightIds collection
+            featureTableNetworkCoverage.highlightIds.remove(objectId);
+          } else {
+            // Add this feature to the featureTableHPSMTickets highlightIds collection
+            featureTableNetworkCoverage.highlightIds.add(objectId);
+          }
+      
+
+    }
     else if(candidate.layer.title == "HPSM Tickets"){
 
       
@@ -3047,16 +3163,7 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
         });
       }
     }
-    else if(candidate.layer.title == "Network Coverage"){
-      if (candidate.graphic.layer.type === "feature") {
-        layerViews.forEach((layerView) => {
-          if (candidate.graphic.layer.title === layerView.layer.title) {
-            handles.add(layerView.highlight(candidate.graphic));
-            // console.log("candidate.graphic:",candidate.graphic);
-          }
-        });
-      }
-    }
+
  
    }
  });
@@ -3122,6 +3229,27 @@ ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function(ZonesResult){
          // highlightIds collection count. If not, update filter selection.
          if (selectionIdCount !== highlightIdsCount) {
           featureTablePOS.filterBySelection();
+         }
+       }
+     });
+   }
+ );
+ 
+ reactiveUtils.watch(
+   () => featureTableNetworkCoverage.highlightIds.length,
+   (highlightIdsCount) => {
+     // Iterate through the filters within the table.
+     // If the active filter is "Show selection",
+     // changes made to highlightIds (adding/removing)
+     // are reflected.
+ 
+     featureTableNetworkCoverage.viewModel.activeFilters.forEach((filter) => {
+       if (filter.type === "selection") {
+         selectionIdCount = filter.objectIds.length; // the filtered selection's id count
+         // Check that the filter selection count is equal to the
+         // highlightIds collection count. If not, update filter selection.
+         if (selectionIdCount !== highlightIdsCount) {
+          featureTableNetworkCoverage.filterBySelection();
          }
        }
      });
