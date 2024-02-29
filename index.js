@@ -299,291 +299,291 @@ require([
         },
       ]
     }
-    map.layers.getItemAt(8).popupTemplate = {
-      title: "{phone_number}",
-      outFields: ["*"],
-      returnGeometry: true,
-      fieldInfos: [
-        {
-          fieldName: "im_id",
-          label: "Im ID",
-        },
-        {
-          fieldName: "phone_number",
-          label: "Phone Number"
-        },
-        {
-          fieldName: "sd_id",
-          label: "SD ID"
-        },
-        {
-          fieldName: "im_group",
-          label: "IM Group"
-        },
-        {
-          fieldName: "sd_open_time",
-          label: "SD Open Time"
-        }
-        ,
-        {
-          fieldName: "sd_opened_by",
-          label: "SD Opened By"
-        }
-        ,
-        {
-          fieldName: "sd",
-          label: "SD"
-        }
-        ,
-        {
-          fieldName: "im_opened_by",
-          label: "IM Opened By"
-        }
-        ,
-        {
-          fieldName: "sd_status",
-          label: "SD Status"
-        }
-        ,
-        {
-          fieldName: "im__status",
-          label: "IM Status"
-        }
-        ,
-        {
-          fieldName: "im_open_time",
-          label: "IM Open Time"
-        }
-        ,
-        {
-          fieldName: "area",
-          label: "Area"
-        }
-        ,
-        {
-          fieldName: "subcategory",
-          label: "Subcategory"
-        }
-        ,
-        {
-          fieldName: "affected_service",
-          label: "Affected Service:"
-        }
-        ,
-        {
-          fieldName: "sd_close_time",
-          label: "SD Close Time"
-        }
-        ,
-        {
-          fieldName: "sd_resolution_time",
-          label: "SD Resolution Time"
-        }
-        ,
-        {
-          fieldName: "cc_slt",
-          label: "CC SLT"
-        }
-        ,
-        {
-          fieldName: "cemu_ola_status",
-          label: "CEMU OLA Status"
-        }
-        ,
-        {
-          fieldName: "general_outage",
-          label: "General Outage"
-        }
-        ,
-        {
-          fieldName: "sla_status",
-          label: "SLA Status"
-        }
-        ,
-        {
-          fieldName: "affected_service",
-          label: "Affected Service"
-        }
-        ,
-        {
-          fieldName: "gouvernorate",
-          label: "Gouvernorate"
-        }
-        ,
-        {
-          fieldName: "resolution",
-          label: "Resolution"
-        }
-        ,
-        {
-          fieldName: "asia_bscs_rate_plan",
-          label: "Asia Bscs Rate Plan"
-        }
-        ,
-        {
-          fieldName: "asia_bscs_balance",
-          label: "Asia Bscs Balance"
-        }
-        ,
-        {
-          fieldName: "resolution_code",
-          label: "Resolution Code"
-        }
-        ,
-        {
-          fieldName: "category",
-          label: "Category"
-        }
-        ,
-        {
-          fieldName: "description",
-          label: "Description"
-        }
-        ,
-        {
-          fieldName: "cemu_comment",
-          label: "CEMU comment"
-        }
-        ,
-        {
-          fieldName: "escalate_ticket",
-          label: "Escalate Ticket"
-        }
-        ,
-        {
-          fieldName: "contact_msisdn",
-          label: "Contact Msisdn"
-        }
-        ,
-        {
-          fieldName: "cell_id",
-          label: "Cell ID"
-        }
-        ,
-        {
-          fieldName: "msisdn",
-          label: "Msisdn"
-        }
-        ,
-        {
-          fieldName: "cell_name",
-          label: "Cell Name"
-        }
-        ,
-        {
-          fieldName: "siteid",
-          label: "Site ID"
-        }
-        ,
-        {
-          fieldName: "customer_segment",
-          label: "Customer Segment"
-        }
-        ,
-        {
-          fieldName: "sitename",
-          label: "Site Name"
-        }
-        ,
-        {
-          fieldName: "cmc",
-          label: "CMC"
-        }
-        ,
-        {
-          fieldName: "reopened",
-          label: "Reopened"
-        }
-        ,
-        {
-          fieldName: "cmc_waiting",
-          label: "CMC Waiting"
-        }
-        ,
-        {
-          fieldName: "cmc_id",
-          label: "CMC ID"
-        }
-        ,
-        {
-          fieldName: "closed_by_id",
-          label: "Closed By ID"
-        }
-        ,
-        {
-          fieldName: "region",
-          label: "Region"
-        }
-        ,
-        {
-          fieldName: "resolved_by",
-          label: "Resolved By"
-        }
-        ,
-        {
-          fieldName: "expected_resolution_date",
-          label: "Expected Resolution Date"
-        }
-        ,
-        {
-          fieldName: "auto_governorate",
-          label: "Auto Governorate"
-        }
-        ,
-        {
-          fieldName: "channel",
-          label: "Channel"
-        }
-        ,
-        {
-          fieldName: "cgi",
-          label: "CGI"
-        }
-        ,
-        {
-          fieldName: "problem_time",
-          label: "Problem Time"
-        }
-      ],
-      content: [
-        // Add FieldContent to popup template.
-        {
-          type: "fields"
-        },
-        // Create RelationshipContent with the relationship between
-        // the units and fires.
-        //  {
-        //    type: "relationship",
-        //    // The numeric ID value for the defined relationship on the service.
-        //    // This can be found on the service.
-        //    relationshipId: 4,
-        //    description: "",
-        //    // Display two related fire features in the list of related features.
-        //    displayCount: 1,
-        //    title: "Maintenance Site Operation Data",
-        //    // Order the related features by the 'GIS_ACRES' in descending order.
-        //    orderByFields: {
-        //      field: "site_id",
-        //      order: "desc"
-        //    }
-        //  },
-        //  // // Create RelationshipContent with the relationship between
-        //  // // the units and wildfire protection facility statistics table.
-        //  {
-        //    type: "relationship",
-        //    relationshipId: 5,
-        //    description: "",
-        //    // Display only the one unit
-        //    displayCount: 1,
-        //    title: "Outages Data",
-        //    // Order list of related records by the 'NAME' field in ascending order.
-        //    orderByFields: {
-        //      field: "site_id",
-        //      order: "asc"
-        //    }
-        //  },
-      ]
-    }
+    // map.layers.getItemAt(8).popupTemplate = {
+    //   title: "{phone_number}",
+    //   outFields: ["*"],
+    //   returnGeometry: true,
+    //   fieldInfos: [
+    //     {
+    //       fieldName: "im_id",
+    //       label: "Im ID",
+    //     },
+    //     {
+    //       fieldName: "phone_number",
+    //       label: "Phone Number"
+    //     },
+    //     {
+    //       fieldName: "sd_id",
+    //       label: "SD ID"
+    //     },
+    //     {
+    //       fieldName: "im_group",
+    //       label: "IM Group"
+    //     },
+    //     {
+    //       fieldName: "sd_open_time",
+    //       label: "SD Open Time"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "sd_opened_by",
+    //       label: "SD Opened By"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "sd",
+    //       label: "SD"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "im_opened_by",
+    //       label: "IM Opened By"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "sd_status",
+    //       label: "SD Status"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "im__status",
+    //       label: "IM Status"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "im_open_time",
+    //       label: "IM Open Time"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "area",
+    //       label: "Area"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "subcategory",
+    //       label: "Subcategory"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "affected_service",
+    //       label: "Affected Service:"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "sd_close_time",
+    //       label: "SD Close Time"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "sd_resolution_time",
+    //       label: "SD Resolution Time"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "cc_slt",
+    //       label: "CC SLT"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "cemu_ola_status",
+    //       label: "CEMU OLA Status"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "general_outage",
+    //       label: "General Outage"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "sla_status",
+    //       label: "SLA Status"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "affected_service",
+    //       label: "Affected Service"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "gouvernorate",
+    //       label: "Gouvernorate"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "resolution",
+    //       label: "Resolution"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "asia_bscs_rate_plan",
+    //       label: "Asia Bscs Rate Plan"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "asia_bscs_balance",
+    //       label: "Asia Bscs Balance"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "resolution_code",
+    //       label: "Resolution Code"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "category",
+    //       label: "Category"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "description",
+    //       label: "Description"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "cemu_comment",
+    //       label: "CEMU comment"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "escalate_ticket",
+    //       label: "Escalate Ticket"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "contact_msisdn",
+    //       label: "Contact Msisdn"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "cell_id",
+    //       label: "Cell ID"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "msisdn",
+    //       label: "Msisdn"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "cell_name",
+    //       label: "Cell Name"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "siteid",
+    //       label: "Site ID"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "customer_segment",
+    //       label: "Customer Segment"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "sitename",
+    //       label: "Site Name"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "cmc",
+    //       label: "CMC"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "reopened",
+    //       label: "Reopened"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "cmc_waiting",
+    //       label: "CMC Waiting"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "cmc_id",
+    //       label: "CMC ID"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "closed_by_id",
+    //       label: "Closed By ID"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "region",
+    //       label: "Region"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "resolved_by",
+    //       label: "Resolved By"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "expected_resolution_date",
+    //       label: "Expected Resolution Date"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "auto_governorate",
+    //       label: "Auto Governorate"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "channel",
+    //       label: "Channel"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "cgi",
+    //       label: "CGI"
+    //     }
+    //     ,
+    //     {
+    //       fieldName: "problem_time",
+    //       label: "Problem Time"
+    //     }
+    //   ],
+    //   content: [
+    //     // Add FieldContent to popup template.
+    //     {
+    //       type: "fields"
+    //     },
+    //     // Create RelationshipContent with the relationship between
+    //     // the units and fires.
+    //     //  {
+    //     //    type: "relationship",
+    //     //    // The numeric ID value for the defined relationship on the service.
+    //     //    // This can be found on the service.
+    //     //    relationshipId: 4,
+    //     //    description: "",
+    //     //    // Display two related fire features in the list of related features.
+    //     //    displayCount: 1,
+    //     //    title: "Maintenance Site Operation Data",
+    //     //    // Order the related features by the 'GIS_ACRES' in descending order.
+    //     //    orderByFields: {
+    //     //      field: "site_id",
+    //     //      order: "desc"
+    //     //    }
+    //     //  },
+    //     //  // // Create RelationshipContent with the relationship between
+    //     //  // // the units and wildfire protection facility statistics table.
+    //     //  {
+    //     //    type: "relationship",
+    //     //    relationshipId: 5,
+    //     //    description: "",
+    //     //    // Display only the one unit
+    //     //    displayCount: 1,
+    //     //    title: "Outages Data",
+    //     //    // Order list of related records by the 'NAME' field in ascending order.
+    //     //    orderByFields: {
+    //     //      field: "site_id",
+    //     //      order: "asc"
+    //     //    }
+    //     //  },
+    //   ]
+    // }
 
     //=============================================== show layers data in the right side on click ===========================
 
@@ -630,14 +630,15 @@ require([
                   //  getSitesFeatureLayer(featureChild.graphic.attributes.site_id,graphic.attributes.network_type , "select_on_map")
 
                 }
-                if (block.id == "Zones") {
+                if (block.id == "city_offers") {
 
 
                   if (NetworkCoverageSiteID) {
 
-                    getSitesFeatureLayer(NetworkCoverageSiteID, NetworkCoverageNetworkType, graphic.attributes.admin1name_en, "select_on_map")
+                    getSitesFeatureLayer(NetworkCoverageSiteID, NetworkCoverageNetworkType, graphic.attributes.city_code, "select_on_map")
+                    console.log('graphic.attributes.city_code',graphic.attributes);
                   } else {
-                    getSitesFeatureLayer("", "", graphic.attributes.admin1name_en, "select_on_map")
+                    getSitesFeatureLayer("", "", graphic.attributes.city_code, "select_on_map")
                   }
                   NetworkCoverageSiteID = ""
 
@@ -1001,10 +1002,12 @@ require([
               var polygonNetworkCoverage = NetworkCoveraResult.features[NetworkCoveraResult.features.length - 1]; // Assuming you want the first polygon if there are multiple intersections
               // Do something with the polygon, e.g., access attributes: polygon.attributes
 
-              getSitesFeatureLayer(polygonNetworkCoverage.attributes.site_id, polygonNetworkCoverage.attributes.network_type, polygonZones.attributes.admin1name_en, "search")
+              getSitesFeatureLayer(polygonNetworkCoverage.attributes.site_id, polygonNetworkCoverage.attributes.network_type, polygonZones.attributes.city_code, "search")
+
+              console.log('graphic.attributes.city_code',graphic.attributes);
 
             } else {
-              getSitesFeatureLayer("", "", polygonZones.attributes.admin1name_en, "search")
+              getSitesFeatureLayer("", "", polygonZones.attributes.city_code, "search")
             }
 
           }).catch(function (error) {
@@ -1030,7 +1033,7 @@ require([
       url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/POS_Layers_V2_WFL1/FeatureServer/4"
     });
     const featureLayerOffers = new FeatureLayer({
-      url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/POS_Layers_V2_WFL1/FeatureServer/3"
+      url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/city_offers/FeatureServer/3"
     });
 
     // Define the query parameters
@@ -1054,7 +1057,7 @@ require([
 
 
         var queryParamsOffers = {
-          where: `City = '${city}'`, // Specify your query criteria
+          where: `Code = '${city}'`, // Specify your query criteria
           outFields: ["*"] // Specify the fields you want to retrieve
         };
         // Execute the query
@@ -1129,68 +1132,68 @@ require([
 
         // Execute the query
 
-        featureLayerMaintenanceSiteOperation.queryFeatures(queryParams)
-          .then(function (result) {
+        // featureLayerMaintenanceSiteOperation.queryFeatures(queryParams)
+        //   .then(function (result) {
 
-            // Handle the query result
-            document.getElementById(caller == "search" ? "Data_Container_By_Search" : "Data_Container_By_Select").innerHTML += `
-             <div class="accordion-item">
-             <h2 class="accordion-header" id="headingTwo">
-               <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                 Maintenance Site Operation Data
-               </button>
-             </h2>
-             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-               <div class="accordion-body" id=${caller == "search" ? "collapseTwoBodySearch" : "collapseTwoBodySelect"}>
-               </div>
-             </div>
-            </div>
-             `
+        //     // Handle the query result
+        //     document.getElementById(caller == "search" ? "Data_Container_By_Search" : "Data_Container_By_Select").innerHTML += `
+        //      <div class="accordion-item">
+        //      <h2 class="accordion-header" id="headingTwo">
+        //        <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        //          Maintenance Site Operation Data
+        //        </button>
+        //      </h2>
+        //      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+        //        <div class="accordion-body" id=${caller == "search" ? "collapseTwoBodySearch" : "collapseTwoBodySelect"}>
+        //        </div>
+        //      </div>
+        //     </div>
+        //      `
 
-            for (let index = 0; index < result.features.length; index++) {
-              const element = result.features[index];
-              var perationDateObj = new Date(element.attributes.peration_date)
-              document.getElementById(caller == "search" ? "collapseTwoBodySearch" : "collapseTwoBodySelect").innerHTML += `
-               <table  class="mt-3 table table-striped table-bordered">
-               <thead>
-                 <th colspan="2">Cell ID: ${element.attributes.cell_id ? element.attributes.cell_id : " "}</th>
-               </thead>
-             <tbody>
-               <tr>
-                 <th>Operation Category: </th>
-                 <td> ${element.attributes.operation_category ? element.attributes.operation_category : " "}</td>
-               </tr>
-               <tr>
-                 <th>Operation ID: </th>
-                 <td> ${element.attributes.operation_id ? element.attributes.operation_id : " "}</td>
-               </tr>
-               <tr>
-                 <th>Operation Name: </th>
-                 <td> ${element.attributes.operation_name ? element.attributes.operation_name : " "}</td>
-               </tr>
-               <tr>
-                 <th>Peration Date: </th>
-                 <td> ${perationDateObj ? perationDateObj.toUTCString() : " "}</td>
-               </tr>
-               <tr>
-                 <th>Site ID: </th>
-                 <td> ${element.attributes.site_id ? element.attributes.site_id : " "}</td>
-               </tr>
-               <tr>
-                 <th>Status: </th>
-                 <td> ${element.attributes.status ? element.attributes.status : " "}</td>
-               </tr>
-             </tbody>
-           </table>
-             `
-              // console.log("MaintenanceSiteOperation",element.attributes);
-            }
+        //     for (let index = 0; index < result.features.length; index++) {
+        //       const element = result.features[index];
+        //       var perationDateObj = new Date(element.attributes.peration_date)
+        //       document.getElementById(caller == "search" ? "collapseTwoBodySearch" : "collapseTwoBodySelect").innerHTML += `
+        //        <table  class="mt-3 table table-striped table-bordered">
+        //        <thead>
+        //          <th colspan="2">Cell ID: ${element.attributes.cell_id ? element.attributes.cell_id : " "}</th>
+        //        </thead>
+        //      <tbody>
+        //        <tr>
+        //          <th>Operation Category: </th>
+        //          <td> ${element.attributes.operation_category ? element.attributes.operation_category : " "}</td>
+        //        </tr>
+        //        <tr>
+        //          <th>Operation ID: </th>
+        //          <td> ${element.attributes.operation_id ? element.attributes.operation_id : " "}</td>
+        //        </tr>
+        //        <tr>
+        //          <th>Operation Name: </th>
+        //          <td> ${element.attributes.operation_name ? element.attributes.operation_name : " "}</td>
+        //        </tr>
+        //        <tr>
+        //          <th>Peration Date: </th>
+        //          <td> ${perationDateObj ? perationDateObj.toUTCString() : " "}</td>
+        //        </tr>
+        //        <tr>
+        //          <th>Site ID: </th>
+        //          <td> ${element.attributes.site_id ? element.attributes.site_id : " "}</td>
+        //        </tr>
+        //        <tr>
+        //          <th>Status: </th>
+        //          <td> ${element.attributes.status ? element.attributes.status : " "}</td>
+        //        </tr>
+        //      </tbody>
+        //    </table>
+        //      `
+        //       // console.log("MaintenanceSiteOperation",element.attributes);
+        //     }
 
-          })
-          .catch(function (error) {
-            // Handle errors
-            console.error("Error performing query:", error);
-          });
+        //   })
+        //   .catch(function (error) {
+        //     // Handle errors
+        //     console.error("Error performing query:", error);
+        //   });
 
         // Execute the query
         featureLayerOutagesData.queryFeatures(queryParams)
@@ -1469,7 +1472,7 @@ require([
           });
       } else if (city) {
         var queryParamsOffers = {
-          where: `City = '${city}'`, // Specify your query criteria
+          where: `Code = '${city}'`, // Specify your query criteria
           outFields: ["*"] // Specify the fields you want to retrieve
         };
         // Execute the query
@@ -1953,13 +1956,13 @@ require([
     const featureLayerPOS = map.layers.getItemAt(6); // Grabs the first layer in the map
     const featureLayerNetworkCoverage = map.layers.getItemAt(3); // Grabs the first layer in the map
 
-    featureLayerTwors.title = "Sites";
+    // featureLayerTwors.title = "Sites";
     //  featureLayerHPSMTickets.title = "HPSM Tickets";
-    featureLayerMaintenanceSiteOperation.title = "Maintenance Site Operation";
-    featureLayerOutagesData.title = "OutagesData";
-    featureLayerProductList.title = "Product List";
-    featureLayerOffers.title = "Offers";
-    featureLayerNetworkCoverage.title = "Network Coverage";
+    // featureLayerMaintenanceSiteOperation.title = "Maintenance Site Operation";
+    // featureLayerOutagesData.title = "OutagesData";
+    // featureLayerProductList.title = "Product List";
+    // featureLayerOffers.title = "Offers";
+    // featureLayerNetworkCoverage.title = "Network Coverage";
 
     // Create the feature table
     const featureTableTwors = new FeatureTable({
@@ -2801,6 +2804,12 @@ require([
             fieldName: "Yooz_bundles",
             label: "Yooz Bundles"
           }
+          ,
+          {
+            type: "field",
+            fieldName: "Code",
+            label: "Code"
+          }
 
         ]
       },
@@ -2997,10 +3006,22 @@ require([
             result.graphic.layer === featureLayerTwors
         }
 
+        else if (result.graphic.layer === map.layers.getItemAt(5)) {
+          return result.graphic &&
+            result.graphic.layer &&
+            result.graphic.layer === map.layers.getItemAt(5)
+
+        }
         else if (result.graphic.layer === map.layers.getItemAt(6)) {
           return result.graphic &&
             result.graphic.layer &&
             result.graphic.layer === map.layers.getItemAt(6)
+
+        }
+        else if (result.graphic.layer === map.layers.getItemAt(7)) {
+          return result.graphic &&
+            result.graphic.layer &&
+            result.graphic.layer === map.layers.getItemAt(7)
 
         }
 
@@ -3093,6 +3114,24 @@ require([
           }
         }
         else if (candidate.layer.title == "Network Area") {
+          if (candidate.graphic.layer.type === "feature") {
+            layerViews.forEach((layerView) => {
+              if (candidate.graphic.layer.title === layerView.layer.title) {
+                handles.add(layerView.highlight(candidate.graphic));
+              }
+            });
+          }
+        }
+        else if (candidate.layer.title == "CCTickets_RFI - RFIs_FC") {
+          if (candidate.graphic.layer.type === "feature") {
+            layerViews.forEach((layerView) => {
+              if (candidate.graphic.layer.title === layerView.layer.title) {
+                handles.add(layerView.highlight(candidate.graphic));
+              }
+            });
+          }
+        }
+        else if (candidate.layer.title == "RFI Product") {
           if (candidate.graphic.layer.type === "feature") {
             layerViews.forEach((layerView) => {
               if (candidate.graphic.layer.title === layerView.layer.title) {
