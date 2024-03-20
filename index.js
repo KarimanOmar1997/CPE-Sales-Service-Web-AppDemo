@@ -1592,7 +1592,6 @@ require([
       }
     );
 
-
     reactiveUtils.watch(
       () => featureTablePOS.highlightIds.length,
       (highlightIdsCount) => {
