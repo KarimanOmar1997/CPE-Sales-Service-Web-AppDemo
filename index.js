@@ -22,7 +22,8 @@ require([
   "esri/widgets/Print",
   "esri/widgets/Fullscreen",
   "esri/widgets/FeatureTable",
-  "esri/geometry/geometryEngine"
+  "esri/geometry/geometryEngine",
+  "esri/geometry/Circle",
 ], (
   esriConfig,
   MapView,
@@ -47,7 +48,8 @@ require([
   Print,
   Fullscreen,
   FeatureTable,
-  geometryEngine
+  geometryEngine,
+  Circle
 ) => {
   (async () => {
     let webmapId = "62c42a3b2c5a4dca83e0d26ce017af85";
@@ -117,13 +119,12 @@ require([
     console.log("to get 4 :", map.layers.getItemAt(4).title);
     console.log("to get 5 :", map.layers.getItemAt(5).title);
     console.log("to get 6 :", map.layers.getItemAt(6).title);
-    console.log("to get 7 :", map.layers.getItemAt(7).title);
-    console.log("to get 8 :", map.layers.getItemAt(8).title);
+
 
     //=============================================== custom popup template ===============================================
 
-    map.layers.getItemAt(3).popupTemplate = {
-      title: "{site_name}",
+    map.layers.getItemAt(5).popupTemplate = {
+      title: "{site_id}",
       outFields: ["*"],
       returnGeometry: true,
       fieldInfos: [
@@ -132,53 +133,22 @@ require([
           label: "Site ID:"
         },
         {
-          fieldName: "site_name",
-          label: "site name:"
+          fieldName: "ID",
+          label: "ID:"
         },
         {
           fieldName: "latitude",
           label: "latitude:"
         },
         {
-          fieldName: "longitude",
-          label: "latitude:"
+          fieldName: "plan_longitude",
+          label: "plan longitude:"
         },
         {
-          fieldName: "covergae_area_id",
-          label: "covergae area id:"
-        },
-        {
-          fieldName: "coverage_status",
-          label: "coverage status:"
-        },
-        {
-          fieldName: "coverage_status_date_time",
-          label: "coverage status date time:"
-        },
-        {
-          fieldName: "coverage_location",
-          label: "coverage location:"
-        },
-        {
-          fieldName: "cgi",
-          label: "cgi:"
-        },
-        {
-          fieldName: "outage",
-          label: "outage:"
-        },
-        {
-          fieldName: "maintentance",
-          label: "maintentance:"
-        },
-        {
-          fieldName: "gov",
-          label: "gov:"
-        },
-        {
-          fieldName: "network_type",
-          label: "network type:"
-        },
+          fieldName: "plan_latitude",
+          label: "plan latitude:"
+        }
+
       ],
       content: [
         // Add FieldContent to popup template.
@@ -219,374 +189,8 @@ require([
         },
       ]
     }
-    map.layers.getItemAt(4).popupTemplate = {
-      title: "{site_id}",
-      outFields: ["*"],
-      returnGeometry: true,
-      fieldInfos: [
-        {
-          fieldName: "site_id",
-          label: "Site ID:"
-        },
-        {
-          fieldName: "site_name",
-          label: "Site Name:"
-        },
-        {
-          fieldName: "total_no_customer",
-          label: "Total Customer:"
-        },
-        {
-          fieldName: "site_type",
-          label: "Site Type:"
-        }
-        ,
-        {
-          fieldName: "maintenance",
-          label: "Maintenance:"
-        },
-        {
-          fieldName: "outages",
-          label: "Outages:"
-        }
-        ,
-        {
-          fieldName: "latitude",
-          label: "Latitude:"
-        }
-        ,
-        {
-          fieldName: "longitude",
-          label: "Longitude:"
-        }
-      ],
-      content: [
-        // Add FieldContent to popup template.
-        {
-          type: "fields"
-        },
-        // Create RelationshipContent with the relationship between
-        // the units and fires.
-        {
-          type: "relationship",
-          // The numeric ID value for the defined relationship on the service.
-          // This can be found on the service.
-          relationshipId: 0,
-          description: "",
-          // Display two related fire features in the list of related features.
-          displayCount: 1,
-          title: "Maintenance Site Operation Data",
-          // Order the related features by the 'GIS_ACRES' in descending order.
-          orderByFields: {
-            field: "site_id",
-            order: "desc"
-          }
-        },
-        // // Create RelationshipContent with the relationship between
-        // // the units and wildfire protection facility statistics table.
-        {
-          type: "relationship",
-          relationshipId: 1,
-          description: "",
-          // Display only the one unit
-          displayCount: 1,
-          title: "Outages Data",
-          // Order list of related records by the 'NAME' field in ascending order.
-          orderByFields: {
-            field: "site_id",
-            order: "asc"
-          }
-        },
-      ]
-    }
-    // map.layers.getItemAt(8).popupTemplate = {
-    //   title: "{phone_number}",
-    //   outFields: ["*"],
-    //   returnGeometry: true,
-    //   fieldInfos: [
-    //     {
-    //       fieldName: "im_id",
-    //       label: "Im ID",
-    //     },
-    //     {
-    //       fieldName: "phone_number",
-    //       label: "Phone Number"
-    //     },
-    //     {
-    //       fieldName: "sd_id",
-    //       label: "SD ID"
-    //     },
-    //     {
-    //       fieldName: "im_group",
-    //       label: "IM Group"
-    //     },
-    //     {
-    //       fieldName: "sd_open_time",
-    //       label: "SD Open Time"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "sd_opened_by",
-    //       label: "SD Opened By"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "sd",
-    //       label: "SD"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "im_opened_by",
-    //       label: "IM Opened By"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "sd_status",
-    //       label: "SD Status"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "im__status",
-    //       label: "IM Status"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "im_open_time",
-    //       label: "IM Open Time"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "area",
-    //       label: "Area"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "subcategory",
-    //       label: "Subcategory"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "affected_service",
-    //       label: "Affected Service:"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "sd_close_time",
-    //       label: "SD Close Time"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "sd_resolution_time",
-    //       label: "SD Resolution Time"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "cc_slt",
-    //       label: "CC SLT"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "cemu_ola_status",
-    //       label: "CEMU OLA Status"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "general_outage",
-    //       label: "General Outage"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "sla_status",
-    //       label: "SLA Status"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "affected_service",
-    //       label: "Affected Service"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "gouvernorate",
-    //       label: "Gouvernorate"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "resolution",
-    //       label: "Resolution"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "asia_bscs_rate_plan",
-    //       label: "Asia Bscs Rate Plan"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "asia_bscs_balance",
-    //       label: "Asia Bscs Balance"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "resolution_code",
-    //       label: "Resolution Code"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "category",
-    //       label: "Category"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "description",
-    //       label: "Description"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "cemu_comment",
-    //       label: "CEMU comment"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "escalate_ticket",
-    //       label: "Escalate Ticket"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "contact_msisdn",
-    //       label: "Contact Msisdn"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "cell_id",
-    //       label: "Cell ID"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "msisdn",
-    //       label: "Msisdn"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "cell_name",
-    //       label: "Cell Name"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "siteid",
-    //       label: "Site ID"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "customer_segment",
-    //       label: "Customer Segment"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "sitename",
-    //       label: "Site Name"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "cmc",
-    //       label: "CMC"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "reopened",
-    //       label: "Reopened"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "cmc_waiting",
-    //       label: "CMC Waiting"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "cmc_id",
-    //       label: "CMC ID"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "closed_by_id",
-    //       label: "Closed By ID"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "region",
-    //       label: "Region"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "resolved_by",
-    //       label: "Resolved By"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "expected_resolution_date",
-    //       label: "Expected Resolution Date"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "auto_governorate",
-    //       label: "Auto Governorate"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "channel",
-    //       label: "Channel"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "cgi",
-    //       label: "CGI"
-    //     }
-    //     ,
-    //     {
-    //       fieldName: "problem_time",
-    //       label: "Problem Time"
-    //     }
-    //   ],
-    //   content: [
-    //     // Add FieldContent to popup template.
-    //     {
-    //       type: "fields"
-    //     },
-    //     // Create RelationshipContent with the relationship between
-    //     // the units and fires.
-    //     //  {
-    //     //    type: "relationship",
-    //     //    // The numeric ID value for the defined relationship on the service.
-    //     //    // This can be found on the service.
-    //     //    relationshipId: 4,
-    //     //    description: "",
-    //     //    // Display two related fire features in the list of related features.
-    //     //    displayCount: 1,
-    //     //    title: "Maintenance Site Operation Data",
-    //     //    // Order the related features by the 'GIS_ACRES' in descending order.
-    //     //    orderByFields: {
-    //     //      field: "site_id",
-    //     //      order: "desc"
-    //     //    }
-    //     //  },
-    //     //  // // Create RelationshipContent with the relationship between
-    //     //  // // the units and wildfire protection facility statistics table.
-    //     //  {
-    //     //    type: "relationship",
-    //     //    relationshipId: 5,
-    //     //    description: "",
-    //     //    // Display only the one unit
-    //     //    displayCount: 1,
-    //     //    title: "Outages Data",
-    //     //    // Order list of related records by the 'NAME' field in ascending order.
-    //     //    orderByFields: {
-    //     //      field: "site_id",
-    //     //      order: "asc"
-    //     //    }
-    //     //  },
-    //   ]
-    // }
 
     //=============================================== show layers data in the right side on click ===========================
-
     var NetworkCoverageSiteID
     var NetworkCoverageNetworkType
     // On view click, first remove all the previously added features (if any).
@@ -636,7 +240,7 @@ require([
                   if (NetworkCoverageSiteID) {
 
                     getSitesFeatureLayer(NetworkCoverageSiteID, NetworkCoverageNetworkType, graphic.attributes.city_code, "select_on_map")
-                    console.log('graphic.attributes.city_code',graphic.attributes);
+                    console.log('graphic.attributes.city_code', graphic.attributes);
                   } else {
                     getSitesFeatureLayer("", "", graphic.attributes.city_code, "select_on_map")
                   }
@@ -703,11 +307,12 @@ require([
     // clear selection on click
     document.getElementById("clear-selection").addEventListener("click", () => {
       handles.removeAll();
-      featureTableHPSMTickets.highlightIds.removeAll();
+      view.graphics.removeAll();
       featureTableTwors.highlightIds.removeAll();
       featureTablePOS.highlightIds.removeAll();
       featureTableProductList.highlightIds.removeAll();
       featureTableNetworkCoverage.highlightIds.removeAll();
+      featureTableCells.highlightIds.removeAll();
       document.getElementById("Data_Container_By_Select").innerHTML = " "
       layerBlockArray.forEach((block) => {
         while (block.lastElementChild) {
@@ -722,14 +327,15 @@ require([
       includeDefaultSources: false,
       sources: [
         {
-          layer: map.layers.getItemAt(4),
+          layer: map.layers.getItemAt(5),
           searchFields: ["site_id"],
           displayField: "site_id",
           exactMatch: false,
-          // outFields: ["*"],
+          outFields: ["*"],
           name: "Sites",
           placeholder: "example: BAG0400"
-        },
+        }
+        // ,
         //  {
         //    layer: map.layers.getItemAt(5) ,
         //    searchFields: ["phone_number"],
@@ -739,14 +345,14 @@ require([
         //    name: "CCTicketsFC",
         //    placeholder: "example: 010123456789"
         //  },
-        {
-          name: "ArcGIS World Geocoding Service",
-          placeholder: "example: Nuuk, GRL",
-          apiKey: "AAPK8439fc9a325c4593a3234a4fbafe73caXK2STpUubI24-8zi9egsX2fCBrOdoOUY5qDXEAIHWamfxipss0ffj3zCLo7amIE6"
-          ,
-          singleLineFieldName: "SingleLine",
-          url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-        }
+        // {
+        //   name: "ArcGIS World Geocoding Service",
+        //   placeholder: "example: Nuuk, GRL",
+        //   apiKey: "AAPK8439fc9a325c4593a3234a4fbafe73caXK2STpUubI24-8zi9egsX2fCBrOdoOUY5qDXEAIHWamfxipss0ffj3zCLo7amIE6"
+        //   ,
+        //   singleLineFieldName: "SingleLine",
+        //   url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+        // }
       ]
     });
 
@@ -888,27 +494,7 @@ require([
     // Add the Compass widget to the top left corner of the view
     view.ui.add(compassWidget, "top-right");
 
-    //=============================================== filter widget function ==============================================
 
-    const typeSelect = document.getElementById("type-select");
-
-    typeSelect.addEventListener("change", async () => {
-      const value = typeSelect.value;
-      const layer = map.layers.getItemAt(8);
-      await layer.load();
-      // Create an array of layerViews to be able to highlight selected features.
-      if (layer.type === "feature") {
-        const layerView = await view.whenLayerView(layer);
-
-        layerView.filter =
-          value === "all"
-            ? null
-            : {
-              where: `sd_status = '${value}'`
-            };
-      }
-      // });
-    });
 
     //=============================================== search by adress ==============================================
 
@@ -931,6 +517,7 @@ require([
 
 
       function showResult(results) {
+        view.graphics.removeAll();
         if (results.length) {
           var query = results[0];
           // console.log(query);
@@ -1004,7 +591,7 @@ require([
 
               getSitesFeatureLayer(polygonNetworkCoverage.attributes.site_id, polygonNetworkCoverage.attributes.network_type, polygonZones.attributes.city_code, "search")
 
-              console.log('graphic.attributes.city_code',graphic.attributes);
+              console.log('graphic.attributes.city_code', graphic.attributes);
 
             } else {
               getSitesFeatureLayer("", "", polygonZones.attributes.city_code, "search")
@@ -1129,71 +716,6 @@ require([
               console.error("Error performing query:", error);
             });
         }
-
-        // Execute the query
-
-        // featureLayerMaintenanceSiteOperation.queryFeatures(queryParams)
-        //   .then(function (result) {
-
-        //     // Handle the query result
-        //     document.getElementById(caller == "search" ? "Data_Container_By_Search" : "Data_Container_By_Select").innerHTML += `
-        //      <div class="accordion-item">
-        //      <h2 class="accordion-header" id="headingTwo">
-        //        <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        //          Maintenance Site Operation Data
-        //        </button>
-        //      </h2>
-        //      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-        //        <div class="accordion-body" id=${caller == "search" ? "collapseTwoBodySearch" : "collapseTwoBodySelect"}>
-        //        </div>
-        //      </div>
-        //     </div>
-        //      `
-
-        //     for (let index = 0; index < result.features.length; index++) {
-        //       const element = result.features[index];
-        //       var perationDateObj = new Date(element.attributes.peration_date)
-        //       document.getElementById(caller == "search" ? "collapseTwoBodySearch" : "collapseTwoBodySelect").innerHTML += `
-        //        <table  class="mt-3 table table-striped table-bordered">
-        //        <thead>
-        //          <th colspan="2">Cell ID: ${element.attributes.cell_id ? element.attributes.cell_id : " "}</th>
-        //        </thead>
-        //      <tbody>
-        //        <tr>
-        //          <th>Operation Category: </th>
-        //          <td> ${element.attributes.operation_category ? element.attributes.operation_category : " "}</td>
-        //        </tr>
-        //        <tr>
-        //          <th>Operation ID: </th>
-        //          <td> ${element.attributes.operation_id ? element.attributes.operation_id : " "}</td>
-        //        </tr>
-        //        <tr>
-        //          <th>Operation Name: </th>
-        //          <td> ${element.attributes.operation_name ? element.attributes.operation_name : " "}</td>
-        //        </tr>
-        //        <tr>
-        //          <th>Peration Date: </th>
-        //          <td> ${perationDateObj ? perationDateObj.toUTCString() : " "}</td>
-        //        </tr>
-        //        <tr>
-        //          <th>Site ID: </th>
-        //          <td> ${element.attributes.site_id ? element.attributes.site_id : " "}</td>
-        //        </tr>
-        //        <tr>
-        //          <th>Status: </th>
-        //          <td> ${element.attributes.status ? element.attributes.status : " "}</td>
-        //        </tr>
-        //      </tbody>
-        //    </table>
-        //      `
-        //       // console.log("MaintenanceSiteOperation",element.attributes);
-        //     }
-
-        //   })
-        //   .catch(function (error) {
-        //     // Handle errors
-        //     console.error("Error performing query:", error);
-        //   });
 
         // Execute the query
         featureLayerOutagesData.queryFeatures(queryParams)
@@ -1581,388 +1103,12 @@ require([
       }
     }
 
-    // =============================================== charts =======================================================
-
-    // const layer = map.layers.getItemAt(8);
-    // // console.log(layer);
-    // await layer.load();
-    // let layerView = await view.whenLayerView(layer);
-
-    // // prepare data for total Tickets by time of day chart
-    // let charts = [], hourData = [], hourLabels = [];
-
-    // // Tickets by time of day chart
-    // // run stats query to return total number of Tickets by time of day
-    // // stats results will be grouped by the time of day
-    // const hourResult = await runQuery("1=1", "extract(hour from sd_open_time)");
-    // for (let feature of hourResult.features) {
-    //   hourData.push(feature.attributes["count"]);
-    //   // console.log(feature);
-    //   // hourLabels.push(feature.attributes["EXPR_1"]+2>12?(feature.attributes["EXPR_1"]+2)-12:feature.attributes["EXPR_1"]+2);
-    //   hourLabels.push(feature.attributes["EXPR_1"]);
-    // }
-
-    // // create a bar chart showing total number of Tickets by time of day
-    // //  updateChart("chart-day", hourData, hourLabels, false, 50);
-
-    // // Tickets by time by months
-    // // run stats query to return total number of Tickets by months
-    // let monthData = [];
-    // let monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    // const monthResult = await runQuery("1=1", "extract(month from sd_open_time)");
-    // for (let feature of monthResult.features) {
-    //   // console.log(feature.attributes["count"]);
-    //   monthData.push(feature.attributes["count"]);
-    // }
-
-    // // create a bar chart showing total number of Tickets by months
-    // //  updateChart("chart-month", monthData, monthLabels, false, 50);
-    // // run stats query to return total number of Tickets by week days
-    // let weekData = [];
-    // // const weekResult = await runQuery("1=1", "DAY_WEEK");
-    // // for (let feature of weekResult.features) {
-    // //   weekData.push(feature.attributes["count"]);
-    // // }
-
-    // // Tickets by days of week
-    // // week day labels are used for the total number of Tickets by week days
-    // const weekLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    // // create a bar chart showing total number of Tickets by week days
-    // //  updateChart("chart-week", weekData, weekLabels, false, 50);
-
-    // let SDStatusData = [], SDStatusLabels = [];
-    // // Tickets by time of day chart
-    // // run stats query to return total number of Tickets by time of day
-    // // stats results will be grouped by the time of day
-    // const SDStatusResult = await runQuery("1=1", "sd_status");
-    // for (let feature of SDStatusResult.features) {
-    //   SDStatusData.push(feature.attributes["count"]);
-    //   // console.log(feature.attributes);
-    //   SDStatusLabels.push(feature.attributes["sd_status"]);
-    // }
-
-    // // create a bar chart showing total number of Tickets by time of day
-    // //  updateChart("chart-SDStatus", SDStatusData, SDStatusLabels, false, 50);
-
-
-    // let SUBCATEGORYData = [], SUBCATEGORYLabels = [];
-    // // Tickets by time of day chart
-    // // run stats query to return total number of Tickets by time of day
-    // // stats results will be grouped by the time of day
-    // const SUBCATEGORYResult = await runQuery("1=1", "subcategory");
-    // for (let feature of SUBCATEGORYResult.features) {
-    //   SUBCATEGORYData.push(feature.attributes["count"]);
-    //   // console.log(feature.attributes);
-    //   SUBCATEGORYLabels.push(feature.attributes["subcategory"]);
-    // }
-
-    // // create a bar chart showing total number of Tickets by time of day
-    // //  updatePieChart("chart-subcategory", SUBCATEGORYData, SUBCATEGORYLabels, false, 50);
-
-
-    // //  let dayDistributionChart = updateChart("chart-day-distribution", [], hourLabels, true, 50);
-
-    // // this function is called 3 times when the app loads and generates
-    // // count stats for Tickets 1. by time of day 2. by day of week and 3. by month
-    // async function runQuery(where, groupStats) {
-    //   // create a query object that honors the layer settings
-    //   let query = layer.createQuery();
-    //   query.where = where;
-    //   query.outStatistics = [
-    //     {
-    //       statisticType: "count",
-    //       onStatisticField: "*",
-    //       outStatisticFieldName: "count"
-    //     }
-    //   ];
-    //   query.groupByFieldsForStatistics = [groupStats];
-    //   query.orderByFields = [groupStats];
-    //   let result = await layer.queryFeatures(query);
-    //   return result;
-    // }
-
-    // Keeps track of a selected bar on monthly or week day chart
-    // We use this info to toggle the clicked bar color
-    // let previouslySelectedBarIndex = null;
-
-    // this function is called when user hover the mouse over Tickets charts.
-    // Tickets layer view feature effect will be updated to highlight features
-    // that fall within the selected time, week day or month
-    //  async function applyFilterToTicketsData(event, chart) {
-    //    const activePoints = chart.getElementsAtEvent(event);
-    //    // user did not click on a bar. stop here.
-    //    if (activePoints.length == 0) {
-    //      return;
-    //    }
-    //    const chartData = activePoints[0]["_chart"].config.data;
-    //    const idx = activePoints[0]["_index"];
-
-    //    // There is a selected bar already. Clear up the previous selection before applying a new change
-    //    if (previouslySelectedBarIndex >= 0) {
-    //      // change the bar color back to blue
-    //      if (event.target.id != "chart-subcategory"){
-    //        // console.log('in',event.target.id);
-
-    //        changeBarColor(chart, previouslySelectedBarIndex, "#007AC2");
-    //      }
-    //      // clear the feature effect and reset the previous index
-    //      if (previouslySelectedBarIndex === idx) {
-    //        previouslySelectedBarIndex = null;
-    //        layerView.featureEffect = undefined;
-
-    //      if (dayDistributionChart) {
-    //        dayDistributionChart.data.datasets[0].data = [];
-    //        dayDistributionChart.update();
-    //        dayChartBreakDownBlock.heading = "Click on the graph bar to see hourly chart";
-    //      }
-    //        return;
-    //      }
-    //    }
-
-    //    // feature effect will be applied based on the chart bar user clicked on
-    //    if (activePoints[0]) {
-    //      const label = chartData.labels[idx];
-
-    //      if (event.target.id != "chart-subcategory"){
-    //        // console.log('in if',event.target.id);
-    //        changeBarColor(chart, idx, "red");
-    //      }
-    //      previouslySelectedBarIndex = idx;
-    //      let where;
-    //      // apply effect to Tickets happened during the selected hour
-    //      if (event.target.id == "chart-day") {
-    //        const queryValue = label;
-    //        where = `extract(hour from sd_open_time) = ${queryValue}`;
-    //        // console.log(where);
-    //      } else if (event.target.id == "chart-month") {
-    //        // apply effect to Tickets happened during the selected month
-    //        const queryValue = monthLabels.indexOf(label) + 1;
-    //        where = `extract(month from sd_open_time) = ${queryValue}`;
-    //        const title = "Tickets by days in " + label;
-    //        dayDistributionStats(where, "extract(day from sd_open_time)", title);
-    //      }else if (event.target.id == "chart-SDStatus") {
-    //        // apply effect to Tickets happened during the selected month
-    //        const queryValue = label;
-    //        where = `sd_status = '${queryValue}'`;
-    //      } else if (event.target.id == "chart-subcategory") {
-    //        // apply effect to Tickets happened during the selected month
-    //        const queryValue = label;
-    //        where = `subcategory = '${queryValue}'`;
-    //      }else if (event.target.id == "chart-week") {
-    //        // apply effect to Tickets happened during the selected week day
-    //        const queryValue = weekLabels.indexOf(label) + 1;
-    //        // where = `sd_open_time = ${queryValue}`;
-    //        // where = `DAY_WEEK = ${queryValue}`;
-    //        // const title = "Tickets by hours on " + label;
-    //        // dayDistributionStats(where, "extract(hour from sd_open_time)", title);
-    //      }
-    //      layerView.featureEffect = {
-    //        filter: {
-    //          where
-    //        },
-    //        excludedEffect: "blur(2px) opacity(0.2) grayscale(0.2)"
-    //      };
-    //    }
-    //  }
-
-    //  async function dayDistributionStats(where, groupStats, label) {
-    //    const result = await runQuery(where, groupStats);
-    //    let chartData = [], chartLabels = [];
-
-    //    for (let feature of result.features) {
-    //      chartData.push(feature.attributes["count"]);
-    //      chartLabels.push(feature.attributes["EXPR_1"]);
-    //    }
-
-    //    if (dayChartBreakDownBlock.style.display === "none") {
-    //      dayChartBreakDownBlock.style.display = "block";
-    //    }
-
-    //    dayChartBreakDownBlock.heading = label;
-    //    dayDistributionChart.data.datasets[0].data = chartData;
-    //    dayDistributionChart.data.labels = chartLabels;
-
-    //    const backgroundColors = Array(chartData.length).fill("#007AC2");
-    //    dayDistributionChart.data.datasets[0].backgroundColor = backgroundColors;
-    //    dayDistributionChart.update();
-    //  }
-
-    //  // called from applyFilterToTicketsData function to update the clicked bar color
-    //  function changeBarColor(chart, index, color) {
-    //    chart.data.datasets[0].backgroundColor[index] = color;
-    //    chart.update();
-    //  }
-
-    // UI controls visible in the upper right panel
-    //  let activeGraph = "day";
-    //  const chartChoiceControl = document.getElementById("type-chips");
-    //  const chartBlock = document.getElementById("chart-block");
-    //  const chartDay = document.getElementById("chart-day");
-    //  const chartWeek = document.getElementById("chart-week");
-    //  const chartMonth = document.getElementById("chart-month");
-    //  const dayChartBreakDownBlock = document.getElementById("day-chart-block");
-
-    //  // Show the corresponding chart when user clicks one of the three buttons
-    //  chartChoiceControl?.addEventListener("calciteChipGroupSelect", (event) => {
-    //      // clear feature effect on the layer view and clicked bar chart
-    //      for (let chart of charts) {
-    //        changeBarColor(chart, previouslySelectedBarIndex, "#007AC2");
-    //      }
-    //      layerView.featureEffect = undefined;
-    //      previouslySelectedBarIndex = null;
-    //      dayChartBreakDownBlock.style.display = "none";
-    //      chartDay.style.display = "none";
-    //      chartWeek.style.display = "none";
-    //      chartMonth.style.display = "none";
-    //      switch (event.target.selectedItems[0].value) {
-    //        case "day":
-    //          chartBlock.heading = "Total Tickets by time of day";
-    //          chartDay.style.display = "block";
-    //          break;
-    //        case "week":
-    //          chartBlock.heading = "Total Tickets by day of week";
-    //          chartWeek.style.display = "block";
-    //          break;
-    //        case "month":
-    //          chartBlock.heading = "Total Tickets by month";
-    //          chartMonth.style.display = "block";
-    //        default:
-    //      }
-    //    }
-    //  );
-
-    // this function is called when the app loads. It creates three charts showing
-    // total Tickets by time of day, by day of the week and months
-
-    //  function updatePieChart(canvas, data, labels, remove, max) {
-    //    const canvasElement = document.getElementById(canvas);
-
-    //    // Get the canvas element and render the chart in it
-    //   //  let chart = new Chart(canvasElement.getContext("2d"), {
-    //   //    type: "doughnut",
-    //   //    data: {
-    //   //      labels: labels,
-    //   //      datasets: [
-    //   //        {
-    //   //          backgroundColor: [
-    //   //                "#9e549c",
-    //   //                "#f789d8",
-    //   //                "#149dcf",
-    //   //                "#ed5050",
-    //   //                "#ffde3e",
-    //   //                "#a6c736",
-    //   //                "#b7804a",
-    //   //                "#fc9220",
-    //   //                "#9e9e9e"
-    //   //              ],
-    //   //          data: data
-    //   //        }
-    //   //      ]
-    //   //    },
-    //   //    options: {
-    //   //        responsive: false,
-    //   //        cutoutPercentage: 0,
-    //   //        legend: {
-    //   //          position: "bottom"
-    //   //        },
-    //   //        title: {
-    //   //          display: true,
-    //   //          text: ""
-    //   //        }
-    //   //      },
-    //   //      size: 50
-    //   //  });
-    //    if (!remove) {
-    //      charts.push(chart);
-    //      // add mouse-move event listener on the charts so that we can display features
-    //      // corresponding to the selected by on the chart
-    //      canvasElement.addEventListener("click", async () => {
-    //        const data = await applyFilterToTicketsData(event, chart);
-    //      });
-    //    }
-
-    //    return chart;
-    //  }
-
-    //  function updateChart(canvas, data, labels, remove, max) {
-    //    const canvasElement = document.getElementById(canvas);
-
-    //    const backgroundColors = Array(data.length).fill("#007AC2");
-    //    // Get the canvas element and render the chart in it
-    //   //  let chart = new Chart(canvasElement.getContext("2d"), {
-    //   //    type: "bar",
-    //   //    data: {
-    //   //      labels: labels,
-    //   //      datasets: [
-    //   //        {
-    //   //          backgroundColor: backgroundColors,
-    //   //          data: data
-    //   //        }
-    //   //      ]
-    //   //    },
-    //   //    options: {
-    //   //      responsive: false,
-    //   //      legend: {
-    //   //        display: false
-    //   //      },
-    //   //      scales: {
-    //   //        yAxes: [
-    //   //          {
-    //   //            ticks: {
-    //   //              beginAtZero: true,
-    //   //              max: max
-    //   //            }
-    //   //          }
-    //   //        ]
-    //   //      },
-    //   //      tooltips: {
-    //   //        displayColors: false,
-    //   //        callbacks: {
-    //   //          label: (tooltipItem, data) => {
-    //   //            const total =
-    //   //              data.datasets[tooltipItem.datasetIndex].data[
-    //   //                tooltipItem.index
-    //   //              ];
-    //   //            return (
-    //   //              data.labels[tooltipItem.index] +
-    //   //              " - Total Tickets: " +
-    //   //              total
-    //   //            );
-    //   //          }
-    //   //        }
-    //   //      }
-    //   //    }
-    //   //  });
-    //    if (!remove) {
-    //      charts.push(chart);
-    //      // add mouse-move event listener on the charts so that we can display features
-    //      // corresponding to the selected by on the chart
-    //      canvasElement.addEventListener("click", async () => {
-    //        const data = await applyFilterToTicketsData(event, chart);
-    //      });
-    //    }
-
-    //    return chart;
-    //  }
-
-
-
-
-
     // =========================================================== tables ========================================
 
-    const featureLayerTwors = map.layers.getItemAt(4); // Grabs the first layer in the map
-    const featureLayerHPSMTickets = map.layers.getItemAt(8); // Grabs the first layer in the map
+    const featureLayerTwors = map.layers.getItemAt(5); // Grabs the first layer in the map
     const featureLayerPOS = map.layers.getItemAt(6); // Grabs the first layer in the map
+    const featureLayerCells = map.layers.getItemAt(4); // Grabs the first layer in the map
     const featureLayerNetworkCoverage = map.layers.getItemAt(3); // Grabs the first layer in the map
-
-    // featureLayerTwors.title = "Sites";
-    //  featureLayerHPSMTickets.title = "HPSM Tickets";
-    // featureLayerMaintenanceSiteOperation.title = "Maintenance Site Operation";
-    // featureLayerOutagesData.title = "OutagesData";
-    // featureLayerProductList.title = "Product List";
-    // featureLayerOffers.title = "Offers";
-    // featureLayerNetworkCoverage.title = "Network Coverage";
 
     // Create the feature table
     const featureTableTwors = new FeatureTable({
@@ -1979,167 +1125,7 @@ require([
           zoomToSelection: true
         }
       },
-      tableTemplate: {
-        // Autocast to TableTemplate
-        columnTemplates: [
-          // Takes an array of FieldColumnTemplate and GroupColumnTemplate
-          {
-            // Autocast to FieldColumnTemplate.
-            type: "field",
-            fieldName: "site_id",
-            label: "Site ID",
-            // direction: "des"
-          },
-          {
-            type: "field",
-            fieldName: "site_name",
-            label: "Site Name"
-          },
-          {
-            type: "field",
-            fieldName: "total_no_customer",
-            label: "Total No Customer"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "site_type",
-            label: "Site Type"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "maintenance",
-            label: "Maintenance"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "outages",
-            label: "Outages"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "gov",
-            label: "Zone"
-          }
-        ]
-      },
       container: document.getElementById("tableDiv-Towers")
-    });
-    const featureTableHPSMTickets = new FeatureTable({
-      view: view, // Required for feature highlight to work
-      layer: featureLayerHPSMTickets,
-      visibleElements: {
-        // Autocast to VisibleElements
-        menuItems: {
-          clearSelection: true,
-          refreshData: true,
-          toggleColumns: true,
-          selectedRecordsShowAllToggle: true,
-          selectedRecordsShowSelectedToggle: true,
-          zoomToSelection: true
-        }
-      },
-      tableTemplate: {
-        // Autocast to TableTemplate
-        columnTemplates: [
-          // Takes an array of FieldColumnTemplate and GroupColumnTemplate
-          {
-            // Autocast to FieldColumnTemplate.
-            type: "field",
-            fieldName: "im_id",
-            label: "Ticket ID",
-            // direction: "des"
-          },
-          {
-            type: "field",
-            fieldName: "sd_open_time",
-            label: "Open Date Time"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "im__status",
-            label: "Status"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "sd_resolution_time",
-            label: "Resolve Data Time"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "siteid",
-            label: "Site ID"
-          }
-        ]
-      },
-      container: document.getElementById("tableDiv-HPSMTickets")
-    });
-    const featureTableMaintenanceSiteOperation = new FeatureTable({
-      view: view, // Required for feature highlight to work
-      layer: featureLayerMaintenanceSiteOperation,
-      visibleElements: {
-        // Autocast to VisibleElements
-        menuItems: {
-          clearSelection: true,
-          refreshData: true,
-          toggleColumns: true,
-          selectedRecordsShowAllToggle: true,
-          selectedRecordsShowSelectedToggle: true,
-          zoomToSelection: true
-        }
-      },
-      tableTemplate: {
-        // Autocast to TableTemplate
-        columnTemplates: [
-          // Takes an array of FieldColumnTemplate and GroupColumnTemplate
-          {
-            // Autocast to FieldColumnTemplate.
-            type: "field",
-            fieldName: "operation_id",
-            label: "Operation ID",
-            // direction: "des"
-          },
-          {
-            type: "field",
-            fieldName: "operation_name",
-            label: "Operation Name"
-          },
-          {
-            type: "field",
-            fieldName: "operation_category",
-            label: "Operation Category"
-          },
-          {
-            type: "field",
-            fieldName: "peration_date",
-            label: "Peration Date"
-          },
-          {
-            type: "field",
-            fieldName: "site_id",
-            label: "Site ID"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "status",
-            label: "Status"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "cell_id",
-            label: "Cell ID"
-          }
-        ]
-      },
-      container: document.getElementById("tableDiv-MaintenanceSiteOperation")
     });
     const featureTableOutagesData = new FeatureTable({
       view: view, // Required for feature highlight to work
@@ -2155,171 +1141,7 @@ require([
           zoomToSelection: true
         }
       },
-      tableTemplate: {
-        // Autocast to TableTemplate
-        columnTemplates: [
-          // Takes an array of FieldColumnTemplate and GroupColumnTemplate
-          {
-            // Autocast to FieldColumnTemplate.
-            type: "field",
-            fieldName: "incident_id",
-            label: "Incident ID",
-            // direction: "des"
-          },
-          {
-            type: "field",
-            fieldName: "Status",
-            label: "Status"
-          },
-          {
-            type: "field",
-            fieldName: "kpi_category",
-            label: "KPI Category"
-          },
-          {
-            type: "field",
-            fieldName: "kpi_subcategory",
-            label: "KPI Subcategory"
-          },
-          {
-            type: "field",
-            fieldName: "assignment",
-            label: "Assignment"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "cluster",
-            label: "Cluster"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "element",
-            label: "Element"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "province_city",
-            label: "Province City"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "ne_name",
-            label: "NE Name"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "affectedobject",
-            label: "Affectedobject"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "site_id",
-            label: "Site ID"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "site_name",
-            label: "Site Name"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "original_event_time",
-            label: "Original Event Time"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "clearance_time",
-            label: "Clearance Time"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "close_time",
-            label: "Close Time"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "duration",
-            label: "Duration"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "open_time",
-            label: "Open Time"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "alarm_number",
-            label: "Alarm Number"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "alarm_severity",
-            label: "Alarm Severity"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "affected_sector",
-            label: "Affected Sector"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "problem_category",
-            label: "Problem Category"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "reason",
-            label: "Reason"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "service_affected",
-            label: "Service Affected"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "resolution_code",
-            label: "Resolution Code"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "notification_id",
-            label: "Notification ID"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "resolution",
-            label: "resolution"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "update_time",
-            label: "Update Time"
-          }
-        ]
-      },
+
       container: document.getElementById("tableDiv-OutagesData")
     });
     const featureTablePOS = new FeatureTable({
@@ -2336,363 +1158,7 @@ require([
           zoomToSelection: true
         }
       },
-      tableTemplate: {
-        // Autocast to TableTemplate
-        columnTemplates: [
-          // Takes an array of FieldColumnTemplate and GroupColumnTemplate
-          {
-            // Autocast to FieldColumnTemplate.
-            type: "field",
-            fieldName: "user_",
-            label: "User",
-            // direction: "des"
-          },
-          {
-            type: "field",
-            fieldName: "USERNAME",
-            label: "User Name",
-          },
-          {
-            type: "field",
-            fieldName: "SHOPNAME",
-            label: "Shop Name"
-          },
-          {
-            type: "field",
-            fieldName: "MAINDEALER",
-            label: "Main Dealer"
-          },
-          {
-            type: "field",
-            fieldName: "STATUS",
-            label: "Status"
-          },
-          {
-            type: "field",
-            fieldName: "PAY_MOBILE_STATUS",
-            label: "Pay Mobile Status"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "SIM_SWAP_STATUS",
-            label: "Sim Swap Status"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "ADDRESS",
-            label: "Address"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "GOVERNORATE",
-            label: "Governorate"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "UNDER_GPS",
-            label: "Under GPS"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "REGION",
-            label: "Region"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "EMAIL",
-            label: "Email"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "USERLASTNAME",
-            label: "User Last Name"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "USERFIRSTNAME",
-            label: "User First Name"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "SURNAME",
-            label: "SUR Name"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "USERTYPEID",
-            label: "User Type ID"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "CREATED_DATE",
-            label: "Created Date"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "LAST_UPDATED_DATE",
-            label: "Last Updated Date"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "FINANCE_CODE",
-            label: "Finance Code"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "IS_BLACKLIST",
-            label: "Is Blacklist"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "UNIT_HEAD_ID",
-            label: "Unit Head ID"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "UNIT_HEAD_EMAIL",
-            label: "Unit Head Email"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "UNIT_HEAD_MOBILE_NUMBER",
-            label: "Unit Head Mobile Number"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "SALES_DISTRIBUTOR_ID",
-            label: "Sales Distributor ID"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "SALES_DISTRIBUTOR",
-            label: "Sales Distributor"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "SALES_DISTRIBUTOR_EMAIL",
-            label: "Sales Distributor Email"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "SALES_DISTRIBUTOR_MOBILE_NUMBER",
-            label: "Sales Distributor Mobile Number"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "REGIONAL_UNIT_HEAD_ID",
-            label: "Regional Unit Head ID"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "REGIONAL_UNIT_HEAD",
-            label: "Regional Unit Head"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "POS_Class",
-            label: "POS Class"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Etop_up_Balance_IQD",
-            label: "Etop Up Balance IQD"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Etop_upUser_Transaction_toSubsc",
-            label: "Etop upUser Transaction toSubsc"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Recharged_Amount_to_SubscriberM",
-            label: "Recharged Amount to Subscriber (More than 10K)"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "MGM_HaifzCommissionAmount",
-            label: "MGM Haifz Commission Amount"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "MGM_HaifzTransCountwithComm",
-            label: "MGM Haifz Trans Count with Comm"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "BundleActivationAmount",
-            label: "Bundle Activation Amount"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "BundleActivationCount",
-            label: "Bundle Activation Count"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "MGM_User",
-            label: "	MGM User"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Hala_Line",
-            label: "Hala Line"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "GrossAdd_prepaid",
-            label: "Gross Add Prepaid"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Yooz_Acitvation",
-            label: "Yooz Acitvation"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Acheivement_1",
-            label: "Acheivement 1"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "GrossAdd_FRC_Count5K_Exclud_4G_",
-            label: "Gross Add FRC Count 5K Exclud 4G"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Healthy_Check3",
-            label: "Healthy Chec k3"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "prepaid_target",
-            label: "Prepaid Target"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "PREPAID_QGA_WITH_CONTRACT",
-            label: "Prepaid QGA With Contract"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Consumption15Kwithin_90Days_Che",
-            label: "Consumption 15K Within 90Days Che"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Router",
-            label: "Router"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "MIFI_Activiation",
-            label: "MIFI Activiation"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "F4G_target",
-            label: "4G Target"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "DataLine_4G_GA_Count",
-            label: "DataLine 4G GA Count"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Acheivement2",
-            label: "Acheivement 2"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "DataLine_4G_QGA_Count",
-            label: "DataLine 4G QGA Count"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "POS_Airtime_CommissionAmountCon",
-            label: "POS Airtime Commission Amount Con"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "POS_AirtimeCommissionAmount_FRC",
-            label: "POS Airtime Commission Amount FRC"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "TOTAL_GA",
-            label: "	Total GA"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "TOTAL_TARGET",
-            label: "	Total Target"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "x",
-            label: "X"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "y",
-            label: "Y"
-          }
 
-        ]
-      },
       container: document.getElementById("tableDiv-POS")
     });
     const featureTableProductList = new FeatureTable({
@@ -2709,38 +1175,7 @@ require([
           zoomToSelection: true
         }
       },
-      tableTemplate: {
-        // Autocast to TableTemplate
-        columnTemplates: [
-          // Takes an array of FieldColumnTemplate and GroupColumnTemplate
-          {
-            // Autocast to FieldColumnTemplate.
-            type: "field",
-            fieldName: "Item_Code",
-            label: "Item Code",
-            // direction: "des"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Item_Description",
-            label: "Item Description"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "ID",
-            label: "ID"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Technology",
-            label: "Technology"
-          }
 
-        ]
-      },
       container: document.getElementById("tableDiv-ProductList")
     });
     const featureTableOffers = new FeatureTable({
@@ -2757,62 +1192,7 @@ require([
           zoomToSelection: true
         }
       },
-      tableTemplate: {
-        // Autocast to TableTemplate
-        columnTemplates: [
-          // Takes an array of FieldColumnTemplate and GroupColumnTemplate
-          {
-            // Autocast to FieldColumnTemplate.
-            type: "field",
-            fieldName: "Region",
-            label: "Region",
-            // direction: "des"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Offer_Package_Duration",
-            label: "Offer Package Duration"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Offers_Packages_Bundles",
-            label: "Offers Packages Bundles"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Free_social",
-            label: "Free Social"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Offer_Duration",
-            label: "Offer Duration"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "ID",
-            label: "ID"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Yooz_bundles",
-            label: "Yooz Bundles"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "Code",
-            label: "Code"
-          }
 
-        ]
-      },
       container: document.getElementById("tableDiv-Offers")
     });
     const featureTableNetworkCoverage = new FeatureTable({
@@ -2829,88 +1209,25 @@ require([
           zoomToSelection: true
         }
       },
-      tableTemplate: {
-        // Autocast to TableTemplate
-        columnTemplates: [
-          // Takes an array of FieldColumnTemplate and GroupColumnTemplate
-          {
-            // Autocast to FieldColumnTemplate.
-            type: "field",
-            fieldName: "site_id",
-            label: "Site ID",
-            // direction: "des"
-          },
-          {
-            type: "field",
-            fieldName: "site_name",
-            label: "Site Name"
-          },
-          {
-            type: "field",
-            fieldName: "total_no_customer",
-            label: "Total No Customer"
-          },
-          {
-            type: "field",
-            fieldName: "site_type",
-            label: "Site Type"
-          },
-          {
-            type: "field",
-            fieldName: "covergae_area_id",
-            label: "Covergae Area ID"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "coverage_status",
-            label: "Coverage Status"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "coverage_status_date_time",
-            label: "Coverage Status Date Time"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "coverage_location",
-            label: "Coverage Location"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "cgi",
-            label: "CGI"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "outage",
-            label: "Outage"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "maintentance",
-            label: "Maintentance"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "network_type",
-            label: "Network Type"
-          }
-          ,
-          {
-            type: "field",
-            fieldName: "gov",
-            label: "GOV"
-          }
-        ]
-      },
+
       container: document.getElementById("tableDiv-network-coverage")
+    });
+    const featureTableCells = new FeatureTable({
+      view: view, // Required for feature highlight to work
+      layer: featureLayerCells,
+      visibleElements: {
+        // Autocast to VisibleElements
+        menuItems: {
+          clearSelection: true,
+          refreshData: true,
+          toggleColumns: true,
+          selectedRecordsShowAllToggle: true,
+          selectedRecordsShowSelectedToggle: true,
+          zoomToSelection: true
+        }
+      },
+
+      container: document.getElementById("tableDiv-Cells")
     });
 
     featureTableProductList.on("selection-change", (event) => {
@@ -2919,6 +1236,7 @@ require([
       if (event.added[0]) {
         // `selectedRecords` contains the records of the selected features
         handles.removeAll();
+        view.graphics.removeAll();
         const selectedRecords = event.added[0].feature.attributes.Technology;
         // console.log(selectedRecords , selectedRecords.includes('All'));
         var queryParamsProductList = {
@@ -2971,10 +1289,9 @@ require([
       () => {
         // Filter out and show only the visible features in the feature table.
         featureTableTwors.filterGeometry = view.extent;
-        featureTableHPSMTickets.filterGeometry = view.extent;
         featureTablePOS.filterGeometry = view.extent;
         featureTableNetworkCoverage.filterGeometry = view.extent;
-
+        featureTableCells.filterGeometry = view.extent;
       },
       {
         initial: true
@@ -2983,27 +1300,95 @@ require([
 
     //========================================= Listen for the view's click event and access the associated graphic ========================
 
+    // Circle graphic to represent click location and search radius
+    const circleSymbol = {
+      type: "simple-fill",
+      style: "solid",
+      color: [161, 31, 31, 0.1],
+      outline: {
+        width: 3,
+        color: [161, 31, 31],
+      },
+    };
+
+    await featureLayerPOS.load();
+    let featureLayerViewPOS = await view.whenLayerView(featureLayerPOS);
+    async function showPlaces(geometry) {
+      // Buffer graphic represents click location and search radius
+      clickPoint = {};
+      clickPoint.type = "point";
+      // Convert clicked screen location to longitude and latitude
+      clickPoint.longitude = geometry.longitude
+      clickPoint.latitude = geometry.latitude
+      const circleGeometry = new Circle({
+        center: clickPoint,
+        geodesic: true,
+        numberOfPoints: 100,
+        radius: 5000,  // set radius to 500 meters
+        radiusUnit: "meters",
+      });
+      const circleGraphic = new Graphic({
+        geometry: circleGeometry,
+        symbol: circleSymbol,
+      });
+      // Add buffer graphic to the view
+
+
+      let query = featureLayerPOS.createQuery();
+      query.geometry = geometry  // the point location of the pointer
+      query.distance = 5;
+      query.units = "kilometers";
+      query.spatialRelationship = "intersects";  // this is the default
+      query.returnGeometry = true;
+      query.outFields = ["*"];
+
+      featureLayerViewPOS.queryFeatures(query)
+        .then(function (response) {
+          console.log(response.features);
+          // returns a feature set with features containing the
+          // POPULATION attribute and each feature's geometry
+          for (let index = 0; index < response.features.length; index++) {
+            const element = response.features[index];
+            console.log("element:", element.layer.title);
+
+            if (element.layer.title == "POSs") {
+              if (element.layer.type == "feature") {
+                layerViews.forEach((layerView) => {
+                  if (element.layer.title == layerView.layer.title) {
+
+                    handles.add(layerView.highlight(element));
+                  }
+                });
+              }
+            }
+
+          }
+          view.graphics.add(circleGraphic);
+        })
+        .catch(function (error) {
+          console.error("Error during query: ", error);
+
+        });
+
+    }
+
+
     view.on("immediate-click", async (event) => {
       const response = await view.hitTest(event);
       handles.removeAll();
-      featureTableHPSMTickets.highlightIds.removeAll();
+      view.graphics.removeAll();
       featureTableTwors.highlightIds.removeAll();
       featureTablePOS.highlightIds.removeAll();
       featureTableNetworkCoverage.highlightIds.removeAll();
+      featureTableCells.highlightIds.removeAll();
 
 
       candidate = response.results.find((result) => {
         // console.log("result::",result);
-        if (result.graphic.layer === featureLayerHPSMTickets) {
+        if (result.graphic.layer === map.layers.getItemAt(6)) {
           return result.graphic &&
             result.graphic.layer &&
-            result.graphic.layer === featureLayerHPSMTickets
-
-        }
-        else if (result.graphic.layer === featureLayerTwors) {
-          return result.graphic &&
-            result.graphic.layer &&
-            result.graphic.layer === featureLayerTwors
+            result.graphic.layer === map.layers.getItemAt(6)
         }
 
         else if (result.graphic.layer === map.layers.getItemAt(5)) {
@@ -3012,19 +1397,6 @@ require([
             result.graphic.layer === map.layers.getItemAt(5)
 
         }
-        else if (result.graphic.layer === map.layers.getItemAt(6)) {
-          return result.graphic &&
-            result.graphic.layer &&
-            result.graphic.layer === map.layers.getItemAt(6)
-
-        }
-        else if (result.graphic.layer === map.layers.getItemAt(7)) {
-          return result.graphic &&
-            result.graphic.layer &&
-            result.graphic.layer === map.layers.getItemAt(7)
-
-        }
-
         else if (result.graphic.layer === map.layers.getItemAt(4)) {
           return result.graphic &&
             result.graphic.layer &&
@@ -3037,15 +1409,13 @@ require([
             result.graphic.layer === map.layers.getItemAt(3)
 
         }
-        else if (result.graphic.layer === map.layers.getItemAt(2)) {
+
+        else if (result.graphic.layer === map.layers.getItemAt(1)) {
           return result.graphic &&
             result.graphic.layer &&
-            result.graphic.layer === map.layers.getItemAt(2)
+            result.graphic.layer === map.layers.getItemAt(1)
 
         }
-
-
-
 
       });
 
@@ -3055,7 +1425,7 @@ require([
       if (candidate) {
         // console.log("candidate.graphic : " , candidate.layer.title);
         const objectId = candidate.graphic.getObjectId();
-        if (candidate.layer.title == "Sites") {
+        if (candidate.layer.title == "sitesfinal") {
 
           if (featureTableTwors.highlightIds.includes(objectId)) {
             // Remove feature from current selection if feature
@@ -3074,27 +1444,27 @@ require([
             // is already added to highlightIds collection
             featureTableNetworkCoverage.highlightIds.remove(objectId);
           } else {
-            // Add this feature to the featureTableHPSMTickets highlightIds collection
+
             featureTableNetworkCoverage.highlightIds.add(objectId);
           }
 
 
         }
-        else if (candidate.layer.title == "CCTickets_RFI - CCTicketsFC_ExportFeatures") {
+        else if (candidate.layer.title == "Cell") {
 
 
-          if (featureTableHPSMTickets.highlightIds.includes(objectId)) {
+          if (featureTableCells.highlightIds.includes(objectId)) {
             // Remove feature from current selection if feature
             // is already added to highlightIds collection
-            featureTableHPSMTickets.highlightIds.remove(objectId);
+            featureTableCells.highlightIds.remove(objectId);
           } else {
-            // Add this feature to the featureTableHPSMTickets highlightIds collection
-            featureTableHPSMTickets.highlightIds.add(objectId);
+
+            featureTableCells.highlightIds.add(objectId);
           }
 
 
         }
-        else if (candidate.layer.title == "Governerate") {
+        else if (candidate.layer.title == "city_offers") {
           if (candidate.graphic.layer.type === "feature") {
             layerViews.forEach((layerView) => {
               if (candidate.graphic.layer.title === layerView.layer.title) {
@@ -3109,38 +1479,22 @@ require([
             // is already added to highlightIds collection
             featureTablePOS.highlightIds.remove(objectId);
           } else {
-            // Add this feature to the featureTableHPSMTickets highlightIds collection
-            featureTablePOS.highlightIds.add(objectId);
-          }
-        }
-        else if (candidate.layer.title == "Network Area") {
-          if (candidate.graphic.layer.type === "feature") {
-            layerViews.forEach((layerView) => {
-              if (candidate.graphic.layer.title === layerView.layer.title) {
-                handles.add(layerView.highlight(candidate.graphic));
-              }
-            });
-          }
-        }
-        else if (candidate.layer.title == "CCTickets_RFI - RFIs_FC") {
-          if (candidate.graphic.layer.type === "feature") {
-            layerViews.forEach((layerView) => {
-              if (candidate.graphic.layer.title === layerView.layer.title) {
-                handles.add(layerView.highlight(candidate.graphic));
-              }
-            });
-          }
-        }
-        else if (candidate.layer.title == "RFI Product") {
-          if (candidate.graphic.layer.type === "feature") {
-            layerViews.forEach((layerView) => {
-              if (candidate.graphic.layer.title === layerView.layer.title) {
-                handles.add(layerView.highlight(candidate.graphic));
-              }
-            });
-          }
-        }
 
+            featureTablePOS.highlightIds.add(objectId);
+
+            // Pass point to the showPlaces() function
+            showPlaces(candidate.graphic.geometry);
+          }
+        }
+        else if (candidate.layer.title == "Cell") {
+          if (candidate.graphic.layer.type === "feature") {
+            layerViews.forEach((layerView) => {
+              if (candidate.graphic.layer.title === layerView.layer.title) {
+                handles.add(layerView.highlight(candidate.graphic));
+              }
+            });
+          }
+        }
 
       }
     });
@@ -3148,6 +1502,74 @@ require([
     // Watch the featureTableTwors's highlightIds.length property,
     // and get the count of highlighted features within
     // the table.
+
+    //=============================================== filter widget function ==============================================
+
+    const typeSelect = document.getElementById("type-select");
+
+    typeSelect.addEventListener("change", async () => {
+      const value = typeSelect.value;
+      const layer = map.layers.getItemAt(4);
+      await layer.load();
+      // Create an array of layerViews to be able to highlight selected features.
+      if (layer.type === "feature") {
+        const layerView = await view.whenLayerView(layer);
+
+        layer.definitionExpression = value.toLowerCase().includes('all')
+          ? null
+          : `technology = '${value}'`
+        featureLayerProductList.definitionExpression = value === "all"
+          ? null
+          : `technology = '${value}'`
+      }
+      // });
+    });
+
+    const SearchInputPOSClass = document.getElementById("SearchInputPOSClass");
+    SearchInputPOSClass.addEventListener("change", async () => {
+      const value = SearchInputPOSClass.value;
+      console.log(value);
+      const layer = map.layers.getItemAt(6);
+      await layer.load();
+      // Create an array of layerViews to be able to highlight selected features.
+      if (layer.type === "feature") {
+
+        layer.definitionExpression = value === ""
+          ? null
+          : `POS_Class = '${value}'`
+
+      }
+    });
+    const SearchInputPOSCity = document.getElementById("SearchInputPOSCity");
+    SearchInputPOSCity.addEventListener("change", async () => {
+      const value = SearchInputPOSCity.value;
+      console.log(value);
+      const layer = map.layers.getItemAt(6);
+      await layer.load();
+      // Create an array of layerViews to be able to highlight selected features.
+      if (layer.type === "feature") {
+
+        layer.definitionExpression = value === ""
+          ? null
+          : `GOVERNORATE = '${value}'`
+
+      }
+    });
+    const SearchInputPOSUNITHEADID = document.getElementById("SearchInputPOSUNITHEADID");
+    SearchInputPOSUNITHEADID.addEventListener("change", async () => {
+      const value = SearchInputPOSUNITHEADID.value;
+      console.log(value);
+      const layer = map.layers.getItemAt(6);
+      await layer.load();
+      // Create an array of layerViews to be able to highlight selected features.
+      if (layer.type === "feature") {
+
+        layer.definitionExpression = value === ""
+          ? null
+          : `UNIT_HEAD_ID = '${value}'`
+
+      }
+    });
 
     reactiveUtils.watch(
       () => featureTableTwors.highlightIds.length,
@@ -3170,26 +1592,6 @@ require([
       }
     );
 
-    reactiveUtils.watch(
-      () => featureTableHPSMTickets.highlightIds.length,
-      (highlightIdsCount) => {
-        // Iterate through the filters within the table.
-        // If the active filter is "Show selection",
-        // changes made to highlightIds (adding/removing)
-        // are reflected.
-
-        featureTableHPSMTickets.viewModel.activeFilters.forEach((filter) => {
-          if (filter.type === "selection") {
-            selectionIdCount = filter.objectIds.length; // the filtered selection's id count
-            // Check that the filter selection count is equal to the
-            // highlightIds collection count. If not, update filter selection.
-            if (selectionIdCount !== highlightIdsCount) {
-              featureTableHPSMTickets.filterBySelection();
-            }
-          }
-        });
-      }
-    );
 
     reactiveUtils.watch(
       () => featureTablePOS.highlightIds.length,
@@ -3227,6 +1629,26 @@ require([
             // highlightIds collection count. If not, update filter selection.
             if (selectionIdCount !== highlightIdsCount) {
               featureTableNetworkCoverage.filterBySelection();
+            }
+          }
+        });
+      }
+    );
+    reactiveUtils.watch(
+      () => featureTableCells.highlightIds.length,
+      (highlightIdsCount) => {
+        // Iterate through the filters within the table.
+        // If the active filter is "Show selection",
+        // changes made to highlightIds (adding/removing)
+        // are reflected.
+
+        featureTableCells.viewModel.activeFilters.forEach((filter) => {
+          if (filter.type === "selection") {
+            selectionIdCount = filter.objectIds.length; // the filtered selection's id count
+            // Check that the filter selection count is equal to the
+            // highlightIds collection count. If not, update filter selection.
+            if (selectionIdCount !== highlightIdsCount) {
+              featureTableCells.filterBySelection();
             }
           }
         });
