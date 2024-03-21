@@ -1566,7 +1566,7 @@ require([
 
         layer.definitionExpression = value === ""
           ? null
-          : `UNIT_HEAD_ID = '${value}'`
+          : `USERNAME = '${value}'`
 
       }
     });
