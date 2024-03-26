@@ -119,11 +119,43 @@ require([
     console.log("to get 4 :", map.layers.getItemAt(4).title);
     console.log("to get 5 :", map.layers.getItemAt(5).title);
     console.log("to get 6 :", map.layers.getItemAt(6).title);
+    console.log("to get 7 :", map.layers.getItemAt(7).title);
+    // console.log("to get 8 :", map.layers.getItemAt(8).title);
 
+    const iraq = map.layers.getItemAt(0)
+    const cityOffers = map.layers.getItemAt(1)
+    const networkArea = map.layers.getItemAt(2)
+    const networkCoverage = map.layers.getItemAt(3)
+    const cells = map.layers.getItemAt(4)
+    const sitesFinal = map.layers.getItemAt(5)
+    const POSs = map.layers.getItemAt(6)
+    const CCTicketsRFIRFIsFC = map.layers.getItemAt(7)
+    const iraqTitle = 'Iraq'
+    const cityOffersTitle = 'city_offers'
+    const networkAreaTitle = 'Network Area'
+    const networkCoverageTitle = 'Network Coverage'
+    const cellsTitle = 'Cell'
+    const sitesFinalTitle = 'sitesfinal'
+    const POSsTitle = 'POSs'
+    const CCTicketsRFIRFIsFCTitle = 'CCTickets_RFI - RFIs_FC'
+    var NetworkCoverageSiteID
+    var NetworkCoverageNetworkType
+    const featureLayerMaintenanceSiteOperation = new FeatureLayer({
+      url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/Asia_Cell_V4/FeatureServer/4"
+    });
+    const featureLayerOutagesData = new FeatureLayer({
+      url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/Asia_Cell_V4/FeatureServer/5"
+    });
+    const featureLayerProductList = new FeatureLayer({
+      url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/POS_Layers_V2_WFL1/FeatureServer/4"
+    });
+    const featureLayerOffers = new FeatureLayer({
+      url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/city_offers/FeatureServer/3"
+    });
 
     //=============================================== custom popup template ===============================================
 
-    map.layers.getItemAt(5).popupTemplate = {
+    sitesFinal.popupTemplate = {
       title: "{site_id}",
       outFields: ["*"],
       returnGeometry: true,
@@ -191,8 +223,7 @@ require([
     }
 
     //=============================================== show layers data in the right side on click ===========================
-    var NetworkCoverageSiteID
-    var NetworkCoverageNetworkType
+ 
     // On view click, first remove all the previously added features (if any).
     reactiveUtils.on(
       () => view,
@@ -227,20 +258,23 @@ require([
                   graphic: graphic
                 });
                 block.appendChild(featureChild.container);
-                if (block.id == "Network Coverage") {
+                if (block.id == cellsTitle) {
                   NetworkCoverageSiteID = featureChild.graphic.attributes.site_id
-                  NetworkCoverageNetworkType = featureChild.graphic.attributes.network_type
+                  NetworkCoverageNetworkType = featureChild.graphic.attributes.technology
+                  console.log("NetworkCoverageNetworkType",featureChild.graphic.attributes);
 
                   //  getSitesFeatureLayer(featureChild.graphic.attributes.site_id,graphic.attributes.network_type , "select_on_map")
 
                 }
-                if (block.id == "city_offers") {
+                if (block.id == cityOffersTitle) {
 
 
                   if (NetworkCoverageSiteID) {
 
                     getSitesFeatureLayer(NetworkCoverageSiteID, NetworkCoverageNetworkType, graphic.attributes.city_code, "select_on_map")
                     console.log('graphic.attributes.city_code', graphic.attributes);
+                    console.log("NetworkCoverageNetworkType",NetworkCoverageNetworkType);
+                    console.log('NetworkCoverageSiteID' , NetworkCoverageSiteID);
                   } else {
                     getSitesFeatureLayer("", "", graphic.attributes.city_code, "select_on_map")
                   }
@@ -311,7 +345,7 @@ require([
       featureTableTwors.highlightIds.removeAll();
       featureTablePOS.highlightIds.removeAll();
       featureTableProductList.highlightIds.removeAll();
-      featureTableNetworkCoverage.highlightIds.removeAll();
+      // featureTableNetworkCoverage.highlightIds.removeAll();
       featureTableCells.highlightIds.removeAll();
       document.getElementById("Data_Container_By_Select").innerHTML = " "
       layerBlockArray.forEach((block) => {
@@ -327,7 +361,7 @@ require([
       includeDefaultSources: false,
       sources: [
         {
-          layer: map.layers.getItemAt(5),
+          layer: sitesFinal,
           searchFields: ["site_id"],
           displayField: "site_id",
           exactMatch: false,
@@ -335,24 +369,7 @@ require([
           name: "Sites",
           placeholder: "example: BAG0400"
         }
-        // ,
-        //  {
-        //    layer: map.layers.getItemAt(5) ,
-        //    searchFields: ["phone_number"],
-        //    displayField: "phone_number",
-        //    exactMatch: false,
-        //    // outFields: ["*"],
-        //    name: "CCTicketsFC",
-        //    placeholder: "example: 010123456789"
-        //  },
-        // {
-        //   name: "ArcGIS World Geocoding Service",
-        //   placeholder: "example: Nuuk, GRL",
-        //   apiKey: "AAPK8439fc9a325c4593a3234a4fbafe73caXK2STpUubI24-8zi9egsX2fCBrOdoOUY5qDXEAIHWamfxipss0ffj3zCLo7amIE6"
-        //   ,
-        //   singleLineFieldName: "SingleLine",
-        //   url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-        // }
+ 
       ]
     });
 
@@ -429,13 +446,7 @@ require([
     function setActiveButton(selectedButton) {
       // focus the view to activate keyboard shortcuts for sketching
       view.focus();
-      //  let elements = document.getElementsByClassName("active");
-      //  for (let i = 0; i < elements.length; i++) {
-      //    elements[i].classList.remove("active");
-      //  }
-      //  if (selectedButton) {
-      //    selectedButton.classList.add("active");
-      //  }
+   
     }
 
     //=============================================== add home, locate, Compass, Print, Fullscreen  widgets =================================
@@ -561,14 +572,13 @@ require([
       }
     };
 
-    const NetworkCoverageFeatureLayer = map.layers.getItemAt(3)
-    const ZonesFeatureLayer = map.layers.getItemAt(1)
+
 
 
     function getDitalls(point) {
 
-      var NetworkCoverageQuery = NetworkCoverageFeatureLayer.createQuery();
-      var ZonesQuery = ZonesFeatureLayer.createQuery();
+      var NetworkCoverageQuery = cells.createQuery();
+      var ZonesQuery = cityOffers.createQuery();
 
       // Set the geometry for the query
       NetworkCoverageQuery.geometry = point;
@@ -576,22 +586,22 @@ require([
 
       // Execute the query
 
-      ZonesFeatureLayer.queryFeatures(ZonesQuery).then(async function (ZonesResult) {
+      cityOffers.queryFeatures(ZonesQuery).then(async function (ZonesResult) {
 
         if (ZonesResult.features.length > 0) {
           var polygonZones = ZonesResult.features[ZonesResult.features.length - 1]; // Assuming you want the first polygon if there are multiple intersections
           // Do something with the polygon, e.g., access attributes: polygon.attributes
 
           // Check if any features were found
-          NetworkCoverageFeatureLayer.queryFeatures(NetworkCoverageQuery).then(function (NetworkCoveraResult) {
+          cells.queryFeatures(NetworkCoverageQuery).then(function (NetworkCoveraResult) {
             // Check if any features were found
             if (NetworkCoveraResult.features.length > 0) {
               var polygonNetworkCoverage = NetworkCoveraResult.features[NetworkCoveraResult.features.length - 1]; // Assuming you want the first polygon if there are multiple intersections
               // Do something with the polygon, e.g., access attributes: polygon.attributes
 
-              getSitesFeatureLayer(polygonNetworkCoverage.attributes.site_id, polygonNetworkCoverage.attributes.network_type, polygonZones.attributes.city_code, "search")
-
-              console.log('graphic.attributes.city_code', graphic.attributes);
+              getSitesFeatureLayer(polygonNetworkCoverage.attributes.site_id, polygonNetworkCoverage.attributes.technology, polygonZones.attributes.city_code, "search")
+              console.log('polygonNetworkCoverage.attributes.' , polygonNetworkCoverage.attributes);
+              // console.log('graphic.attributes.city_code', graphic.attributes);
 
             } else {
               getSitesFeatureLayer("", "", polygonZones.attributes.city_code, "search")
@@ -610,21 +620,10 @@ require([
       });
 
     }
-    const featureLayerMaintenanceSiteOperation = new FeatureLayer({
-      url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/Asia_Cell_V4/FeatureServer/4"
-    });
-    const featureLayerOutagesData = new FeatureLayer({
-      url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/Asia_Cell_V4/FeatureServer/5"
-    });
-    const featureLayerProductList = new FeatureLayer({
-      url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/POS_Layers_V2_WFL1/FeatureServer/4"
-    });
-    const featureLayerOffers = new FeatureLayer({
-      url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/city_offers/FeatureServer/3"
-    });
+
 
     // Define the query parameters
-    function getSitesFeatureLayer(site_id, network_type, city, caller) {
+    function getSitesFeatureLayer(site_id,network_type, city, caller) {
 
 
       document.getElementById("Data_Container_By_Search").innerHTML = ` `
@@ -632,7 +631,11 @@ require([
 
       if (site_id) {
 
-        var queryParams = {
+        var queryParamsForCells = {
+          where: `SITEID = '${site_id}'`, // Specify your query criteria
+          outFields: ["*"] // Specify the fields you want to retrieve
+        };
+        var queryParamsForOutagesData = {
           where: `site_id = '${site_id}'`, // Specify your query criteria
           outFields: ["*"] // Specify the fields you want to retrieve
         };
@@ -642,7 +645,6 @@ require([
         };
         // Execute the query
 
-
         var queryParamsOffers = {
           where: `Code = '${city}'`, // Specify your query criteria
           outFields: ["*"] // Specify the fields you want to retrieve
@@ -651,7 +653,7 @@ require([
 
 
         if (caller == "search") {
-          NetworkCoverageFeatureLayer.queryFeatures(queryParams)
+          cells.queryFeatures(queryParamsForCells)
             .then(function (result) {
               // Handle the query result
               document.getElementById(caller == "search" ? "Data_Container_By_Search" : "Data_Container_By_Select").innerHTML += `
@@ -718,7 +720,7 @@ require([
         }
 
         // Execute the query
-        featureLayerOutagesData.queryFeatures(queryParams)
+        featureLayerOutagesData.queryFeatures(queryParamsForOutagesData)
           .then(function (result) {
             // Handle the query result
             document.getElementById(caller == "search" ? "Data_Container_By_Search" : "Data_Container_By_Select").innerHTML += `
@@ -993,10 +995,6 @@ require([
             console.error("Error performing query:", error);
           });
       } else if (city) {
-        var queryParamsOffers = {
-          where: `Code = '${city}'`, // Specify your query criteria
-          outFields: ["*"] // Specify the fields you want to retrieve
-        };
         // Execute the query
         featureLayerOffers.queryFeatures(queryParamsOffers)
           .then(function (result) {
@@ -1105,15 +1103,12 @@ require([
 
     // =========================================================== tables ========================================
 
-    const featureLayerTwors = map.layers.getItemAt(5); // Grabs the first layer in the map
-    const featureLayerPOS = map.layers.getItemAt(6); // Grabs the first layer in the map
-    const featureLayerCells = map.layers.getItemAt(4); // Grabs the first layer in the map
-    const featureLayerNetworkCoverage = map.layers.getItemAt(3); // Grabs the first layer in the map
+
 
     // Create the feature table
     const featureTableTwors = new FeatureTable({
       view: view, // Required for feature highlight to work
-      layer: featureLayerTwors,
+      layer: sitesFinal,
       visibleElements: {
         // Autocast to VisibleElements
         menuItems: {
@@ -1146,7 +1141,7 @@ require([
     });
     const featureTablePOS = new FeatureTable({
       view: view, // Required for feature highlight to work
-      layer: featureLayerPOS,
+      layer: POSs,
       visibleElements: {
         // Autocast to VisibleElements
         menuItems: {
@@ -1195,26 +1190,26 @@ require([
 
       container: document.getElementById("tableDiv-Offers")
     });
-    const featureTableNetworkCoverage = new FeatureTable({
-      view: view, // Required for feature highlight to work
-      layer: featureLayerNetworkCoverage,
-      visibleElements: {
-        // Autocast to VisibleElements
-        menuItems: {
-          clearSelection: true,
-          refreshData: true,
-          toggleColumns: true,
-          selectedRecordsShowAllToggle: true,
-          selectedRecordsShowSelectedToggle: true,
-          zoomToSelection: true
-        }
-      },
+    // const featureTableNetworkCoverage = new FeatureTable({
+    //   view: view, // Required for feature highlight to work
+    //   layer: featureLayerNetworkCoverage,
+    //   visibleElements: {
+    //     // Autocast to VisibleElements
+    //     menuItems: {
+    //       clearSelection: true,
+    //       refreshData: true,
+    //       toggleColumns: true,
+    //       selectedRecordsShowAllToggle: true,
+    //       selectedRecordsShowSelectedToggle: true,
+    //       zoomToSelection: true
+    //     }
+    //   },
 
-      container: document.getElementById("tableDiv-network-coverage")
-    });
+    //   container: document.getElementById("tableDiv-network-coverage")
+    // });
     const featureTableCells = new FeatureTable({
       view: view, // Required for feature highlight to work
-      layer: featureLayerCells,
+      layer: cells,
       visibleElements: {
         // Autocast to VisibleElements
         menuItems: {
@@ -1240,11 +1235,11 @@ require([
         const selectedRecords = event.added[0].feature.attributes.Technology;
         // console.log(selectedRecords , selectedRecords.includes('All'));
         var queryParamsProductList = {
-          where: selectedRecords.includes('All') ? '1=1' : `network_type = '${selectedRecords}'`, // Specify your query criteria
+          where: selectedRecords.includes('All') ? '1=1' : `technology = '${selectedRecords}'`, // Specify your query criteria
           outFields: ["*"] // Specify the fields you want to retrieve
         };
 
-        map.layers.getItemAt(3).queryFeatures(queryParamsProductList)
+        cells.queryFeatures(queryParamsProductList)
           .then(function (result) {
             // Handle the query result
             // console.log(result);
@@ -1252,7 +1247,7 @@ require([
               const element = result.features[index];
               console.log("element:", element.layer.title);
 
-              if (element.layer.title == "Network Coverage") {
+              if (element.layer.title == cellsTitle) {
                 if (element.layer.type == "feature") {
                   layerViews.forEach((layerView) => {
                     if (element.layer.title == layerView.layer.title) {
@@ -1290,7 +1285,7 @@ require([
         // Filter out and show only the visible features in the feature table.
         featureTableTwors.filterGeometry = view.extent;
         featureTablePOS.filterGeometry = view.extent;
-        featureTableNetworkCoverage.filterGeometry = view.extent;
+        // featureTableNetworkCoverage.filterGeometry = view.extent;
         featureTableCells.filterGeometry = view.extent;
       },
       {
@@ -1311,8 +1306,8 @@ require([
       },
     };
 
-    await featureLayerPOS.load();
-    let featureLayerViewPOS = await view.whenLayerView(featureLayerPOS);
+    await POSs.load();
+    let featureLayerViewPOS = await view.whenLayerView(POSs);
     async function showPlaces(geometry) {
       // Buffer graphic represents click location and search radius
       clickPoint = {};
@@ -1334,7 +1329,7 @@ require([
       // Add buffer graphic to the view
 
 
-      let query = featureLayerPOS.createQuery();
+      let query = POSs.createQuery();
       query.geometry = geometry  // the point location of the pointer
       query.distance = 5;
       query.units = "kilometers";
@@ -1379,41 +1374,41 @@ require([
       view.graphics.removeAll();
       featureTableTwors.highlightIds.removeAll();
       featureTablePOS.highlightIds.removeAll();
-      featureTableNetworkCoverage.highlightIds.removeAll();
+      // featureTableNetworkCoverage.highlightIds.removeAll();
       featureTableCells.highlightIds.removeAll();
 
 
       candidate = response.results.find((result) => {
         // console.log("result::",result);
-        if (result.graphic.layer === map.layers.getItemAt(6)) {
+        if (result.graphic.layer === POSs) {
           return result.graphic &&
             result.graphic.layer &&
-            result.graphic.layer === map.layers.getItemAt(6)
+            result.graphic.layer === POSs
         }
 
-        else if (result.graphic.layer === map.layers.getItemAt(5)) {
+        else if (result.graphic.layer === sitesFinal) {
           return result.graphic &&
             result.graphic.layer &&
-            result.graphic.layer === map.layers.getItemAt(5)
+            result.graphic.layer === sitesFinal
 
         }
-        else if (result.graphic.layer === map.layers.getItemAt(4)) {
+        else if (result.graphic.layer === cells) {
           return result.graphic &&
             result.graphic.layer &&
-            result.graphic.layer === map.layers.getItemAt(4)
-
-        }
-        else if (result.graphic.layer === map.layers.getItemAt(3)) {
-          return result.graphic &&
-            result.graphic.layer &&
-            result.graphic.layer === map.layers.getItemAt(3)
+            result.graphic.layer === cells
 
         }
 
-        else if (result.graphic.layer === map.layers.getItemAt(1)) {
+        else if (result.graphic.layer === cityOffers) {
           return result.graphic &&
             result.graphic.layer &&
-            result.graphic.layer === map.layers.getItemAt(1)
+            result.graphic.layer === cityOffers
+
+        }
+        else if (result.graphic.layer === CCTicketsRFIRFIsFC) {
+          return result.graphic &&
+            result.graphic.layer &&
+            result.graphic.layer === CCTicketsRFIRFIsFC
 
         }
 
@@ -1425,7 +1420,7 @@ require([
       if (candidate) {
         // console.log("candidate.graphic : " , candidate.layer.title);
         const objectId = candidate.graphic.getObjectId();
-        if (candidate.layer.title == "sitesfinal") {
+        if (candidate.layer.title == sitesFinalTitle) {
 
           if (featureTableTwors.highlightIds.includes(objectId)) {
             // Remove feature from current selection if feature
@@ -1436,21 +1431,7 @@ require([
             // Add this feature to the featureTableTwors highlightIds collection
           }
         }
-        else if (candidate.layer.title == "Network Coverage") {
-
-
-          if (featureTableNetworkCoverage.highlightIds.includes(objectId)) {
-            // Remove feature from current selection if feature
-            // is already added to highlightIds collection
-            featureTableNetworkCoverage.highlightIds.remove(objectId);
-          } else {
-
-            featureTableNetworkCoverage.highlightIds.add(objectId);
-          }
-
-
-        }
-        else if (candidate.layer.title == "Cell") {
+        else if (candidate.layer.title == cellsTitle) {
 
 
           if (featureTableCells.highlightIds.includes(objectId)) {
@@ -1464,7 +1445,7 @@ require([
 
 
         }
-        else if (candidate.layer.title == "city_offers") {
+        else if (candidate.layer.title == cityOffersTitle) {
           if (candidate.graphic.layer.type === "feature") {
             layerViews.forEach((layerView) => {
               if (candidate.graphic.layer.title === layerView.layer.title) {
@@ -1473,7 +1454,7 @@ require([
             });
           }
         }
-        else if (candidate.layer.title == "POSs") {
+        else if (candidate.layer.title == POSsTitle) {
           if (featureTablePOS.highlightIds.includes(objectId)) {
             // Remove feature from current selection if feature
             // is already added to highlightIds collection
@@ -1486,7 +1467,7 @@ require([
             showPlaces(candidate.graphic.geometry);
           }
         }
-        else if (candidate.layer.title == "Cell") {
+        else if (candidate.layer.title == CCTicketsRFIRFIsFCTitle) {
           if (candidate.graphic.layer.type === "feature") {
             layerViews.forEach((layerView) => {
               if (candidate.graphic.layer.title === layerView.layer.title) {
@@ -1509,18 +1490,18 @@ require([
 
     typeSelect.addEventListener("change", async () => {
       const value = typeSelect.value;
-      const layer = map.layers.getItemAt(4);
-      await layer.load();
+      
+      await cells.load();
       // Create an array of layerViews to be able to highlight selected features.
-      if (layer.type === "feature") {
-        const layerView = await view.whenLayerView(layer);
+      if (cells.type === "feature") {
+        const layerView = await view.whenLayerView(cells);
 
-        layer.definitionExpression = value.toLowerCase().includes('all')
+        cells.definitionExpression = value.toLowerCase().includes('all')
           ? null
           : `technology = '${value}'`
         featureLayerProductList.definitionExpression = value === "all"
           ? null
-          : `technology = '${value}'`
+          : `Technology = '${value}'`
       }
       // });
     });
@@ -1529,12 +1510,12 @@ require([
     SearchInputPOSClass.addEventListener("change", async () => {
       const value = SearchInputPOSClass.value;
       console.log(value);
-      const layer = map.layers.getItemAt(6);
-      await layer.load();
+      // const layer = POSs;
+      await POSs.load();
       // Create an array of layerViews to be able to highlight selected features.
-      if (layer.type === "feature") {
+      if (POSs.type === "feature") {
 
-        layer.definitionExpression = value === ""
+        POSs.definitionExpression = value === ""
           ? null
           : `POS_Class = '${value}'`
 
@@ -1544,12 +1525,12 @@ require([
     SearchInputPOSCity.addEventListener("change", async () => {
       const value = SearchInputPOSCity.value;
       console.log(value);
-      const layer = map.layers.getItemAt(6);
-      await layer.load();
+      // const layer = POSs;
+      await POSs.load();
       // Create an array of layerViews to be able to highlight selected features.
-      if (layer.type === "feature") {
+      if (POSs.type === "feature") {
 
-        layer.definitionExpression = value === ""
+        POSs.definitionExpression = value === ""
           ? null
           : `GOVERNORATE = '${value}'`
 
@@ -1559,12 +1540,12 @@ require([
     SearchInputPOSUNITHEADID.addEventListener("change", async () => {
       const value = SearchInputPOSUNITHEADID.value;
       console.log(value);
-      const layer = map.layers.getItemAt(6);
-      await layer.load();
+      // const layer = POSs;
+      await POSs.load();
       // Create an array of layerViews to be able to highlight selected features.
-      if (layer.type === "feature") {
+      if (POSs.type === "feature") {
 
-        layer.definitionExpression = value === ""
+        POSs.definitionExpression = value === ""
           ? null
           : `USERNAME = '${value}'`
 
@@ -1613,26 +1594,6 @@ require([
       }
     );
 
-    reactiveUtils.watch(
-      () => featureTableNetworkCoverage.highlightIds.length,
-      (highlightIdsCount) => {
-        // Iterate through the filters within the table.
-        // If the active filter is "Show selection",
-        // changes made to highlightIds (adding/removing)
-        // are reflected.
-
-        featureTableNetworkCoverage.viewModel.activeFilters.forEach((filter) => {
-          if (filter.type === "selection") {
-            selectionIdCount = filter.objectIds.length; // the filtered selection's id count
-            // Check that the filter selection count is equal to the
-            // highlightIds collection count. If not, update filter selection.
-            if (selectionIdCount !== highlightIdsCount) {
-              featureTableNetworkCoverage.filterBySelection();
-            }
-          }
-        });
-      }
-    );
     reactiveUtils.watch(
       () => featureTableCells.highlightIds.length,
       (highlightIdsCount) => {

@@ -5,11 +5,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>CPE Sales Service Web App</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script> -->
+  <script src="chart.main.js"></script>
   <link href="./bootstrap-5.2.3-dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/1.9.2/calcite.css" />
-  <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css" />
+    <link rel="stylesheet" type="text/css" href="calcite.css" />
+  <!-- <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/1.9.2/calcite.css" /> -->
+  <link rel="stylesheet" href="./arcgis_js_v428_api/arcgis_js_api/javascript/4.28/esri/themes/light/main.css" />
+  <!-- <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css" /> -->
   <style>
     html,
     body,
@@ -261,21 +264,21 @@
       <option value="2G">2G</option>
     </select>
     <p class="my-2"> Filter by POS class :</p>
-    <!-- <input id="SearchInputPOSClass" class="w-100 p-2" type="search" placeholder="Search" aria-label="Search"> -->
+ 
     <div class="input-group mb-3">
       <input id="SearchInputPOSClass" type="text" class="form-control" placeholder="POS Class" aria-label="POS Class"
         aria-describedby="button-addon2">
       <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
     </div>
     <p class="my-2"> Filter by POS City :</p>
-    <!-- <input id="SearchInputPOSClass" class="w-100 p-2" type="search" placeholder="Search" aria-label="Search"> -->
+ 
     <div class="input-group mb-3">
       <input id="SearchInputPOSCity" type="text" class="form-control" placeholder="POS City" aria-label="POS City"
         aria-describedby="button-addon3">
       <button class="btn btn-outline-secondary" type="button" id="button-addon3">Search</button>
     </div>
     <p class="my-2"> Filter by POS UNIT_HEAD_ID :</p>
-    <!-- <input id="SearchInputPOSClass" class="w-100 p-2" type="search" placeholder="Search" aria-label="Search"> -->
+ 
     <div class="input-group mb-3">
       <input id="SearchInputPOSUNITHEADID" type="text" class="form-control" placeholder="POS UNIT_HEAD_ID"
         aria-label="POS UNIT_HEAD_ID" aria-describedby="button-addon4">
@@ -289,8 +292,6 @@
         type="button" role="tab" aria-controls="nav-Towers" aria-selected="true">Sites</button>
       <button class="nav-link" id="nav-Cells-tab" data-bs-toggle="tab" data-bs-target="#nav-Cells" type="button"
         role="tab" aria-controls="nav-Cells" aria-selected="false">Cells</button>
-      <button class="nav-link" id="nav-network-coverage-tab" data-bs-toggle="tab" data-bs-target="#nav-network-coverage"
-        type="button" role="tab" aria-controls="nav-network-coverage" aria-selected="false">Network Coverage</button>
       <button class="nav-link" id="nav-POS-tab" data-bs-toggle="tab" data-bs-target="#nav-POS" type="button" role="tab"
         aria-controls="nav-POS" aria-selected="false">POSs</button>
       <button class="nav-link" id="nav-Offers-tab" data-bs-toggle="tab" data-bs-target="#nav-Offers" type="button"
@@ -310,11 +311,6 @@
     <div class="container tab-pane fade mb-3" id="nav-Cells" role="tabpanel" aria-labelledby="nav-Cells-tab"
       tabindex="0">
       <div id="tableDiv-Cells">
-      </div>
-    </div>
-    <div class="container tab-pane fade mb-3" id="nav-network-coverage" role="tabpanel"
-      aria-labelledby="nav-network-coverage-tab" tabindex="0">
-      <div id="tableDiv-network-coverage">
       </div>
     </div>
     <div class="container tab-pane fade mb-3" id="nav-POS" role="tabpanel" aria-labelledby="nav-POS-tab" tabindex="0">
@@ -338,16 +334,18 @@
     </div>
   </div>
 
-  <!-- <img src="./Untitled.png" alt=""> -->
+
   <script src="./bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@esri/arcgis-rest-request@4.0.0/dist/bundled/request.umd.js"></script>
-  <script src="https://unpkg.com/@esri/arcgis-rest-feature-service@4.0.0/dist/bundled/feature-service.umd.js"></script>
-  <script src="https://js.arcgis.com/4.28/"></script>
+  <!-- <script src="https://unpkg.com/@esri/arcgis-rest-request@4.0.0/dist/bundled/request.umd.js"></script>
+  <script src="https://unpkg.com/@esri/arcgis-rest-feature-service@4.0.0/dist/bundled/feature-service.umd.js"></script> -->
+  <!-- <script src="https://js.arcgis.com/4.28/"></script> -->
+  <script src="./arcgis_js_v428_api/arcgis_js_api/javascript/4.28/init.js"></script>
   <script type="module" src="https://js.arcgis.com/calcite-components/1.9.2/calcite.esm.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+    <script src="./jquery-3.6.0.min.js"></script>
   <script src="./index.js"></script>
 </body>
 
