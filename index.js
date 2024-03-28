@@ -656,62 +656,70 @@ require([
           cells.queryFeatures(queryParamsForCells)
             .then(function (result) {
               // Handle the query result
-              document.getElementById(caller == "search" ? "Data_Container_By_Search" : "Data_Container_By_Select").innerHTML += `
-             <div class="accordion-item">
-             <h2 class="accordion-header" id="headingOne">
-               <button class="accordion-button fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                 Network Coverage Data
-               </button>
-             </h2>
-             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-               <div class="accordion-body" id=${caller == "search" ? "collapseOneBodySearch" : "collapseOneBodySelect"}>
-               </div>
-             </div>
-           </div>
-             `
-
-              for (let index = 0; index < result.features.length; index++) {
-                const element = result.features[index];
-                document.getElementById(caller == "search" ? "collapseOneBodySearch" : "collapseOneBodySelect").innerHTML += `
-               <table  class="mt-3 table table-striped table-bordered">
-               <thead>
-                 <th colspan="2">Site ID: ${element.attributes.site_id ? element.attributes.site_id : " "}</th>
-               </thead>
-             <tbody>
-               <tr>
-                 <th>Coverage Status: </th>
-                 <td> ${element.attributes.coverage_status ? element.attributes.coverage_status : " "}</td>
-               </tr>
-               <tr>
-                 <th>Coverage Status Date Time: </th>
-                 <td> ${element.attributes.coverage_status_date_time ? element.attributes.coverage_status_date_time : " "}</td>
-               </tr>
-               <tr>
-                 <th>Coverage Location: </th>
-                 <td> ${element.attributes.coverage_location ? element.attributes.coverage_location : " "}</td>
-               </tr>
-               <tr>
-                 <th>CGI: </th>
-                 <td> ${element.attributes.cgi ? element.attributes.cgi : " "}</td>
-               </tr>
-               <tr>
-                 <th>Site Name: </th>
-                 <td> ${element.attributes.site_name ? element.attributes.site_name : " "}</td>
-               </tr>
-               <tr>
-                 <th>Latitude: </th>
-                 <td> ${element.attributes.latitude ? element.attributes.latitude : " "}</td>
-               </tr>
-               <tr>
-                 <th>Longitude: </th>
-                 <td> ${element.attributes.longitude ? element.attributes.longitude : " "}</td>
-               </tr>
-       
-             </tbody>
-           </table>
-             `
-                // console.log("site",element.attributes);
+              if (result.features.length > 0) {
+                document.getElementById(caller == "search" ? "Data_Container_By_Search" : "Data_Container_By_Select").innerHTML += `
+                <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Network Coverage Data
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                  <div class="accordion-body" id=${caller == "search" ? "collapseOneBodySearch" : "collapseOneBodySelect"}>
+                  </div>
+                </div>
+              </div>
+                `
+   
+                 for (let index = 0; index < result.features.length; index++) {
+                   const element = result.features[index];
+                   document.getElementById(caller == "search" ? "collapseOneBodySearch" : "collapseOneBodySelect").innerHTML += `
+                  <table  class="mt-3 table table-striped table-bordered">
+                  <thead>
+                    <th colspan="2">Site ID: ${element.attributes.site_id ? element.attributes.site_id : " "}</th>
+                  </thead>
+                <tbody>
+                  <tr>
+                    <th>Coverage Status: </th>
+                    <td> ${element.attributes.coverage_status ? element.attributes.coverage_status : " "}</td>
+                  </tr>
+                  <tr>
+                    <th>Coverage Status Date Time: </th>
+                    <td> ${element.attributes.coverage_status_date_time ? element.attributes.coverage_status_date_time : " "}</td>
+                  </tr>
+                  <tr>
+                    <th>Coverage Location: </th>
+                    <td> ${element.attributes.coverage_location ? element.attributes.coverage_location : " "}</td>
+                  </tr>
+                  <tr>
+                    <th>CGI: </th>
+                    <td> ${element.attributes.cgi ? element.attributes.cgi : " "}</td>
+                  </tr>
+                  <tr>
+                    <th>Site Name: </th>
+                    <td> ${element.attributes.site_name ? element.attributes.site_name : " "}</td>
+                  </tr>
+                  <tr>
+                    <th>Latitude: </th>
+                    <td> ${element.attributes.latitude ? element.attributes.latitude : " "}</td>
+                  </tr>
+                  <tr>
+                    <th>Longitude: </th>
+                    <td> ${element.attributes.longitude ? element.attributes.longitude : " "}</td>
+                  </tr>
+          
+                </tbody>
+              </table>
+                `
+                   // console.log("site",element.attributes);
+                 }
+              }else{
+                document.getElementById(caller == "search" ? "Data_Container_By_Search" : "Data_Container_By_Select").innerHTML += `
+                <button class="accordion-button collapsed border fw-bold text-danger " type="button" >
+                No cells Found
+                </button>`
               }
+
             })
             .catch(function (error) {
               // Handle errors
@@ -723,146 +731,154 @@ require([
         featureLayerOutagesData.queryFeatures(queryParamsForOutagesData)
           .then(function (result) {
             // Handle the query result
-            document.getElementById(caller == "search" ? "Data_Container_By_Search" : "Data_Container_By_Select").innerHTML += `
-           <div class="accordion-item">
-           <h2 class="accordion-header" id="headingThree">
-             <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-               Outages Data
-             </button>
-           </h2>
-           <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-             <div class="accordion-body" id=${caller == "search" ? "collapseThreeBodySearch" : "collapseThreeBodySelect"}>
-             </div>
-           </div>
-         </div>
-           `
-            for (let index = 0; index < result.features.length; index++) {
-              const element = result.features[index];
-              var clearanceTimeDateObj = new Date(element.attributes.clearance_time);
-              var closeTimeDateObj = new Date(element.attributes.close_time);
-              document.getElementById(caller == "search" ? "collapseThreeBodySearch" : "collapseThreeBodySelect").innerHTML += `
-             <table  class="mt-3 table table-striped table-bordered">
-             <thead>
-               <th colspan="2">Incident ID: ${element.attributes.incident_id ? element.attributes.incident_id : " "}</th>
-             </thead>
-           <tbody>
-             <tr>
-               <th>Affected Sector: </th>
-               <td> ${element.attributes.affected_sector ? element.attributes.affected_sector : " "}</td>
-             </tr>
-             <tr>
-               <th>Affectedobject: </th>
-               <td> ${element.attributes.affectedobject ? element.attributes.affectedobject : " "}</td>
-             </tr>
-             <tr>
-               <th>Alarm Number: </th>
-               <td> ${element.attributes.alarm_number ? element.attributes.alarm_number : " "}</td>
-             </tr>
-             <tr>
-               <th>Alarm Severity: </th>
-               <td> ${element.attributes.alarm_severity ? element.attributes.alarm_severity : " "}</td>
-             </tr>
-             <tr>
-               <th>Assignment: </th>
-               <td> ${element.attributes.assignment ? element.attributes.assignment : " "}</td>
-             </tr>
-             <tr>
-               <th>Cell ID: </th>
-               <td> ${element.attributes.cell_id ? element.attributes.cell_id : " "}</td>
-             </tr>
-             <tr>
-               <th>Clearance Time: </th>
-               <td> ${clearanceTimeDateObj ? clearanceTimeDateObj.toUTCString() : " "}</td>
-             </tr>
-             <tr>
-               <th>Close Time: </th>
-               <td> ${closeTimeDateObj ? closeTimeDateObj.toUTCString() : " "}</td>
-             </tr>
-             <tr>
-               <th>Cluster: </th>
-               <td> ${element.attributes.cluster ? element.attributes.cluster : " "}</td>
-             </tr>
-             <tr>
-               <th>Duration: </th>
-               <td> ${element.attributes.duration ? element.attributes.duration : " "}</td>
-             </tr>
-             <tr>
-               <th>Element: </th>
-               <td> ${element.attributes.element ? element.attributes.element : " "}</td>
-             </tr>
-             <tr>
-               <th>Incident ID: </th>
-               <td> ${element.attributes.incident_id ? element.attributes.incident_id : " "}</td>
-             </tr>
-             <tr>
-               <th>Kpi Category: </th>
-               <td> ${element.attributes.kpi_category ? element.attributes.kpi_category : " "}</td>
-             </tr>
-             <tr>
-               <th>Kpi Subcategory: </th>
-               <td> ${element.attributes.kpi_subcategory ? element.attributes.kpi_subcategory : " "}</td>
-             </tr>
-             <tr>
-               <th>NE Name: </th>
-               <td> ${element.attributes.ne_name ? element.attributes.ne_name : " "}</td>
-             </tr>
-             <tr>
-               <th>Notification ID: </th>
-               <td> ${element.attributes.notification_id ? element.attributes.notification_id : " "}</td>
-             </tr>
-             <tr>
-               <th>Open Time: </th>
-               <td> ${element.attributes.open_time ? element.attributes.open_time : " "}</td>
-             </tr>
-             <tr>
-               <th>Original_event Time: </th>
-               <td> ${element.attributes.original_event_time ? element.attributes.original_event_time : " "}</td>
-             </tr>
-             <tr>
-               <th>Problem Category: </th>
-               <td> ${element.attributes.problem_category ? element.attributes.problem_category : " "}</td>
-             </tr>
-             <tr>
-               <th>Province City: </th>
-               <td> ${element.attributes.province_city ? element.attributes.province_city : " "}</td>
-             </tr>
-             <tr>
-               <th>Reason: </th>
-               <td> ${element.attributes.reason ? element.attributes.reason : " "}</td>
-             </tr>
-             <tr>
-               <th>Resolution: </th>
-               <td> ${element.attributes.resolution ? element.attributes.resolution : " "}</td>
-             </tr>
-             <tr>
-               <th>Resolution Code: </th>
-               <td> ${element.attributes.resolution_code ? element.attributes.resolution_code : " "}</td>
-             </tr>
-             <tr>
-               <th>Service Affected: </th>
-               <td> ${element.attributes.service_affected ? element.attributes.service_affected : " "}</td>
-             </tr>
-             <tr>
-               <th>Site ID: </th>
-               <td> ${element.attributes.site_id ? element.attributes.site_id : " "}</td>
-             </tr>
-             <tr>
-               <th>Site Name: </th>
-               <td> ${element.attributes.site_name ? element.attributes.site_name : " "}</td>
-             </tr>
-             <tr>
-               <th>Status: </th>
-               <td> ${element.attributes.status ? element.attributes.status : " "}</td>
-             </tr>
-             <tr>
-               <th>Update Time: </th>
-               <td> ${element.attributes.update_time ? element.attributes.update_time : " "}</td>
-             </tr>
-           </tbody>
-         </table>
-           `
-              // console.log("OutagesData",element.attributes);
+            if (result.features.length > 0) {
+              document.getElementById(caller == "search" ? "Data_Container_By_Search" : "Data_Container_By_Select").innerHTML += `
+              <div class="accordion-item">
+              <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed fw-bold text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Outages Data
+                </button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body" id=${caller == "search" ? "collapseThreeBodySearch" : "collapseThreeBodySelect"}>
+                </div>
+              </div>
+            </div>
+              `
+               for (let index = 0; index < result.features.length; index++) {
+                 const element = result.features[index];
+                 var clearanceTimeDateObj = new Date(element.attributes.clearance_time);
+                 var closeTimeDateObj = new Date(element.attributes.close_time);
+                 document.getElementById(caller == "search" ? "collapseThreeBodySearch" : "collapseThreeBodySelect").innerHTML += `
+                <table  class="mt-3 table table-striped table-bordered">
+                <thead>
+                  <th colspan="2">Incident ID: ${element.attributes.incident_id ? element.attributes.incident_id : " "}</th>
+                </thead>
+              <tbody>
+                <tr>
+                  <th>Affected Sector: </th>
+                  <td> ${element.attributes.affected_sector ? element.attributes.affected_sector : " "}</td>
+                </tr>
+                <tr>
+                  <th>Affectedobject: </th>
+                  <td> ${element.attributes.affectedobject ? element.attributes.affectedobject : " "}</td>
+                </tr>
+                <tr>
+                  <th>Alarm Number: </th>
+                  <td> ${element.attributes.alarm_number ? element.attributes.alarm_number : " "}</td>
+                </tr>
+                <tr>
+                  <th>Alarm Severity: </th>
+                  <td> ${element.attributes.alarm_severity ? element.attributes.alarm_severity : " "}</td>
+                </tr>
+                <tr>
+                  <th>Assignment: </th>
+                  <td> ${element.attributes.assignment ? element.attributes.assignment : " "}</td>
+                </tr>
+                <tr>
+                  <th>Cell ID: </th>
+                  <td> ${element.attributes.cell_id ? element.attributes.cell_id : " "}</td>
+                </tr>
+                <tr>
+                  <th>Clearance Time: </th>
+                  <td> ${clearanceTimeDateObj ? clearanceTimeDateObj.toUTCString() : " "}</td>
+                </tr>
+                <tr>
+                  <th>Close Time: </th>
+                  <td> ${closeTimeDateObj ? closeTimeDateObj.toUTCString() : " "}</td>
+                </tr>
+                <tr>
+                  <th>Cluster: </th>
+                  <td> ${element.attributes.cluster ? element.attributes.cluster : " "}</td>
+                </tr>
+                <tr>
+                  <th>Duration: </th>
+                  <td> ${element.attributes.duration ? element.attributes.duration : " "}</td>
+                </tr>
+                <tr>
+                  <th>Element: </th>
+                  <td> ${element.attributes.element ? element.attributes.element : " "}</td>
+                </tr>
+                <tr>
+                  <th>Incident ID: </th>
+                  <td> ${element.attributes.incident_id ? element.attributes.incident_id : " "}</td>
+                </tr>
+                <tr>
+                  <th>Kpi Category: </th>
+                  <td> ${element.attributes.kpi_category ? element.attributes.kpi_category : " "}</td>
+                </tr>
+                <tr>
+                  <th>Kpi Subcategory: </th>
+                  <td> ${element.attributes.kpi_subcategory ? element.attributes.kpi_subcategory : " "}</td>
+                </tr>
+                <tr>
+                  <th>NE Name: </th>
+                  <td> ${element.attributes.ne_name ? element.attributes.ne_name : " "}</td>
+                </tr>
+                <tr>
+                  <th>Notification ID: </th>
+                  <td> ${element.attributes.notification_id ? element.attributes.notification_id : " "}</td>
+                </tr>
+                <tr>
+                  <th>Open Time: </th>
+                  <td> ${element.attributes.open_time ? element.attributes.open_time : " "}</td>
+                </tr>
+                <tr>
+                  <th>Original_event Time: </th>
+                  <td> ${element.attributes.original_event_time ? element.attributes.original_event_time : " "}</td>
+                </tr>
+                <tr>
+                  <th>Problem Category: </th>
+                  <td> ${element.attributes.problem_category ? element.attributes.problem_category : " "}</td>
+                </tr>
+                <tr>
+                  <th>Province City: </th>
+                  <td> ${element.attributes.province_city ? element.attributes.province_city : " "}</td>
+                </tr>
+                <tr>
+                  <th>Reason: </th>
+                  <td> ${element.attributes.reason ? element.attributes.reason : " "}</td>
+                </tr>
+                <tr>
+                  <th>Resolution: </th>
+                  <td> ${element.attributes.resolution ? element.attributes.resolution : " "}</td>
+                </tr>
+                <tr>
+                  <th>Resolution Code: </th>
+                  <td> ${element.attributes.resolution_code ? element.attributes.resolution_code : " "}</td>
+                </tr>
+                <tr>
+                  <th>Service Affected: </th>
+                  <td> ${element.attributes.service_affected ? element.attributes.service_affected : " "}</td>
+                </tr>
+                <tr>
+                  <th>Site ID: </th>
+                  <td> ${element.attributes.site_id ? element.attributes.site_id : " "}</td>
+                </tr>
+                <tr>
+                  <th>Site Name: </th>
+                  <td> ${element.attributes.site_name ? element.attributes.site_name : " "}</td>
+                </tr>
+                <tr>
+                  <th>Status: </th>
+                  <td> ${element.attributes.status ? element.attributes.status : " "}</td>
+                </tr>
+                <tr>
+                  <th>Update Time: </th>
+                  <td> ${element.attributes.update_time ? element.attributes.update_time : " "}</td>
+                </tr>
+              </tbody>
+            </table>
+              `
+                 // console.log("OutagesData",element.attributes);
+               }
+            }else{
+              document.getElementById(caller == "search" ? "Data_Container_By_Search" : "Data_Container_By_Select").innerHTML += `
+              <button class="accordion-button collapsed border fw-bold text-danger " type="button" >
+              No Outages Data Found
+              </button>`
             }
+
           })
           .catch(function (error) {
             // Handle errors
@@ -1513,12 +1529,30 @@ require([
       // const layer = POSs;
       await POSs.load();
       // Create an array of layerViews to be able to highlight selected features.
-      if (POSs.type === "feature") {
-
-        POSs.definitionExpression = value === ""
-          ? null
-          : `POS_Class = '${value}'`
-
+      try {
+        // Clear existing highlights
+        featureTablePOS.highlightIds.removeAll();
+    
+        const queryParams = {
+          where: `POS_Class = '${value}'`, // Specify your query criteria
+          outFields: ["*"] // Specify the fields you want to retrieve
+        };
+    
+        // Query features
+        const result = await POSs.queryFeatures(queryParams);
+        
+        // Handle the query result
+        result.features.forEach(async(feature) => {
+ 
+            const objectId = feature.attributes.OBJECTID; // Access objectId directly from feature.attributes
+            if (!featureTablePOS.highlightIds.includes(objectId)) {
+              // Remove feature from current selection if already highlighted
+              featureTablePOS.highlightIds.add(objectId);
+            } 
+          
+        });
+      } catch (error) {
+        console.error("Error querying features:", error);
       }
     });
     const SearchInputPOSCity = document.getElementById("SearchInputPOSCity");
@@ -1527,29 +1561,65 @@ require([
       console.log(value);
       // const layer = POSs;
       await POSs.load();
-      // Create an array of layerViews to be able to highlight selected features.
-      if (POSs.type === "feature") {
 
-        POSs.definitionExpression = value === ""
-          ? null
-          : `GOVERNORATE = '${value}'`
-
+      try {
+        // Clear existing highlights
+        featureTablePOS.highlightIds.removeAll();
+    
+        const queryParams = {
+          where: `GOVERNORATE = '${value}'`, // Specify your query criteria
+          outFields: ["*"] // Specify the fields you want to retrieve
+        };
+    
+        // Query features
+        const result = await POSs.queryFeatures(queryParams);
+        
+        // Handle the query result
+        result.features.forEach(async(feature) => {
+ 
+            const objectId = feature.attributes.OBJECTID; // Access objectId directly from feature.attributes
+            if (!featureTablePOS.highlightIds.includes(objectId)) {
+              // Remove feature from current selection if already highlighted
+              featureTablePOS.highlightIds.add(objectId);
+            } 
+          
+        });
+      } catch (error) {
+        console.error("Error querying features:", error);
       }
+      
     });
-    const SearchInputPOSUNITHEADID = document.getElementById("SearchInputPOSUNITHEADID");
-    SearchInputPOSUNITHEADID.addEventListener("change", async () => {
-      const value = SearchInputPOSUNITHEADID.value;
+    const SearchInputPOSUSERNAME = document.getElementById("SearchInputPOSUSERNAME");
+    SearchInputPOSUSERNAME.addEventListener("change", async () => {
+      const value = SearchInputPOSUSERNAME.value;
       console.log(value);
-      // const layer = POSs;
-      await POSs.load();
-      // Create an array of layerViews to be able to highlight selected features.
-      if (POSs.type === "feature") {
 
-        POSs.definitionExpression = value === ""
-          ? null
-          : `USERNAME = '${value}'`
-
+      try {
+        // Clear existing highlights
+        featureTablePOS.highlightIds.removeAll();
+    
+        const queryParams = {
+          where: `USERNAME = '${value}'`, // Specify your query criteria
+          outFields: ["*"] // Specify the fields you want to retrieve
+        };
+    
+        // Query features
+        const result = await POSs.queryFeatures(queryParams);
+        
+        // Handle the query result
+        result.features.forEach(async(feature) => {
+ 
+            const objectId = feature.attributes.OBJECTID; // Access objectId directly from feature.attributes
+            if (!featureTablePOS.highlightIds.includes(objectId)) {
+              // Remove feature from current selection if already highlighted
+              featureTablePOS.highlightIds.add(objectId);
+            } 
+          
+        });
+      } catch (error) {
+        console.error("Error querying features:", error);
       }
+
     });
 
     reactiveUtils.watch(
