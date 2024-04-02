@@ -52,7 +52,7 @@ require([
   Circle
 ) => {
   (async () => {
-    let webmapId = "62c42a3b2c5a4dca83e0d26ce017af85";
+    let webmapId = "039f70452dd740faaca866197cb0eca3";
     if (window.location.href.indexOf("?id=") > 0) {
       webmapId = window.location.href.split("?id=")[1];
     }
@@ -118,28 +118,21 @@ require([
     console.log("to get 3 :", map.layers.getItemAt(3).title);
     console.log("to get 4 :", map.layers.getItemAt(4).title);
     console.log("to get 5 :", map.layers.getItemAt(5).title);
-    console.log("to get 6 :", map.layers.getItemAt(6).title);
-    console.log("to get 7 :", map.layers.getItemAt(7).title);
-    // console.log("to get 8 :", map.layers.getItemAt(8).title);
 
     const iraq = map.layers.getItemAt(0)
     const cityOffers = map.layers.getItemAt(1)
-    const networkArea = map.layers.getItemAt(2)
-    const networkCoverage = map.layers.getItemAt(3)
-    const cells = map.layers.getItemAt(4)
-    const sitesFinal = map.layers.getItemAt(5)
-    const POSs = map.layers.getItemAt(6)
-    const CCTicketsRFIRFIsFC = map.layers.getItemAt(7)
+    const cells = map.layers.getItemAt(2)
+    const sitesFinal = map.layers.getItemAt(3)
+    const POSs = map.layers.getItemAt(4)
+    const CCTicketsRFIRFIsFC = map.layers.getItemAt(5)
     const iraqTitle = 'Iraq'
-    const cityOffersTitle = 'city_offers'
-    const networkAreaTitle = 'Network Area'
-    const networkCoverageTitle = 'Network Coverage'
+    const cityOffersTitle = 'City'
     const cellsTitle = 'Cell'
-    const sitesFinalTitle = 'sitesfinal'
+    const sitesFinalTitle = 'SitesFinal'
     const POSsTitle = 'POSs'
     const CCTicketsRFIRFIsFCTitle = 'CCTickets_RFI - RFIs_FC'
-    var NetworkCoverageSiteID
-    var NetworkCoverageNetworkType
+    var cellsSITEID
+    var cellsNetworkType
     const featureLayerMaintenanceSiteOperation = new FeatureLayer({
       url: "https://services3.arcgis.com/N0l9vjYH8GLn5HZh/arcgis/rest/services/Asia_Cell_V4/FeatureServer/4"
     });
@@ -259,9 +252,9 @@ require([
                 });
                 block.appendChild(featureChild.container);
                 if (block.id == cellsTitle) {
-                  NetworkCoverageSiteID = featureChild.graphic.attributes.site_id
-                  NetworkCoverageNetworkType = featureChild.graphic.attributes.technology
-                  console.log("NetworkCoverageNetworkType",featureChild.graphic.attributes);
+                  cellsSITEID = featureChild.graphic.attributes.SITEID
+                  cellsNetworkType = featureChild.graphic.attributes.technology
+                  console.log("cellsNetworkType",featureChild.graphic.attributes);
 
                   //  getSitesFeatureLayer(featureChild.graphic.attributes.site_id,graphic.attributes.network_type , "select_on_map")
 
@@ -269,16 +262,16 @@ require([
                 if (block.id == cityOffersTitle) {
 
 
-                  if (NetworkCoverageSiteID) {
+                  if (cellsSITEID) {
 
-                    getSitesFeatureLayer(NetworkCoverageSiteID, NetworkCoverageNetworkType, graphic.attributes.city_code, "select_on_map")
+                    getSitesFeatureLayer(cellsSITEID, cellsNetworkType, graphic.attributes.city_code, "select_on_map")
                     console.log('graphic.attributes.city_code', graphic.attributes);
-                    console.log("NetworkCoverageNetworkType",NetworkCoverageNetworkType);
-                    console.log('NetworkCoverageSiteID' , NetworkCoverageSiteID);
+                    console.log("cellsNetworkType",cellsNetworkType);
+                    console.log('cellsSITEID' , cellsSITEID);
                   } else {
                     getSitesFeatureLayer("", "", graphic.attributes.city_code, "select_on_map")
                   }
-                  NetworkCoverageSiteID = ""
+                  cellsSITEID = ""
 
                 }
                 // block.appendChild(featureChild.container);
@@ -599,7 +592,7 @@ require([
               var polygonNetworkCoverage = NetworkCoveraResult.features[NetworkCoveraResult.features.length - 1]; // Assuming you want the first polygon if there are multiple intersections
               // Do something with the polygon, e.g., access attributes: polygon.attributes
 
-              getSitesFeatureLayer(polygonNetworkCoverage.attributes.site_id, polygonNetworkCoverage.attributes.technology, polygonZones.attributes.city_code, "search")
+              getSitesFeatureLayer(polygonNetworkCoverage.attributes.SITEID, polygonNetworkCoverage.attributes.technology, polygonZones.attributes.city_code, "search")
               console.log('polygonNetworkCoverage.attributes.' , polygonNetworkCoverage.attributes);
               // console.log('graphic.attributes.city_code', graphic.attributes);
 
@@ -624,7 +617,7 @@ require([
 
     // Define the query parameters
     function getSitesFeatureLayer(site_id,network_type, city, caller) {
-
+console.log('network_type',network_type);
 
       document.getElementById("Data_Container_By_Search").innerHTML = ` `
       document.getElementById("Data_Container_By_Select").innerHTML = ` `
@@ -640,7 +633,7 @@ require([
           outFields: ["*"] // Specify the fields you want to retrieve
         };
         var queryParamsNetworkType = {
-          where: `Technology = '${network_type}'`, // Specify your query criteria
+          where: `Technology = '${network_type}' OR Technology = 'All (voince & data)' OR Technology = 'Data (All)'`, // Specify your query criteria
           outFields: ["*"] // Specify the fields you want to retrieve
         };
         // Execute the query
