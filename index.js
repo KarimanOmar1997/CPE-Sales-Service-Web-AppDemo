@@ -1,5 +1,4 @@
 require([
-  "esri/config",
   "esri/views/MapView",
   "esri/WebMap",
   "esri/widgets/LayerList",
@@ -24,8 +23,10 @@ require([
   "esri/widgets/FeatureTable",
   "esri/geometry/geometryEngine",
   "esri/geometry/Circle",
+  "esri/config",
+  "esri/identity/IdentityManager",
+  "esri/request"
 ], (
-  esriConfig,
   MapView,
   WebMap,
   LayerList,
@@ -49,7 +50,8 @@ require([
   Fullscreen,
   FeatureTable,
   geometryEngine,
-  Circle
+  Circle,
+  esriConfig, esriId, esriRequest
 ) => {
   (async () => {
     let webmapId = "039f70452dd740faaca866197cb0eca3";
@@ -108,7 +110,41 @@ require([
         const layerView = await view.whenLayerView(layer);
         layerViews.push(layerView);
       }
+
+   
     });
+
+    // map.load()
+    // .then(function() {
+    //   // Loop through each layer in the web map
+    //   map.layers.forEach(function(layer) {
+    //     // Update maxRecordCount property for feature layers
+    //     if (layer.type === "feature") {
+    //       const serviceUrl = layer.url;
+    //       const updateUrl = `${serviceUrl}/admin/updateDefinition`;
+
+    //       // Define update object
+    //       const updateObject = {
+    //         maxRecordCount: 10000 // Set the maxRecordCount
+    //       };
+
+    //       // Send request to update the service definition
+    //       esriRequest(updateUrl, {
+    //         query: {
+    //           f: "json",
+    //           token: "YOUR_TOKEN" // Replace with your token if required
+    //         },
+    //         method: "POST",
+    //         body: JSON.stringify(updateObject),
+    //         responseType: "json"
+    //       }).then(function(updateResponse) {
+    //         console.log('Update response:', updateResponse);
+    //       }).catch(function(updateError) {
+    //         console.error("Error updating layer definition:", updateError);
+    //       });
+    //     }
+    //   });
+    // })
 
     //=============================================== see all layer in console ===============================================
 
@@ -160,20 +196,17 @@ require([
         {
           fieldName: "ID",
           label: "ID:"
-        },
-        {
-          fieldName: "latitude",
-          label: "latitude:"
-        },
-        {
-          fieldName: "plan_longitude",
-          label: "plan longitude:"
-        },
+        }
+        ,
         {
           fieldName: "plan_latitude",
-          label: "plan latitude:"
+          label: "Latitude:"
         }
-
+        ,
+        {
+          fieldName: "plan_longitude",
+          label: "Longitude:"
+        }
       ],
       content: [
         // Add FieldContent to popup template.
@@ -186,11 +219,11 @@ require([
           type: "relationship",
           // The numeric ID value for the defined relationship on the service.
           // This can be found on the service.
-          relationshipId: 2,
+          relationshipId: 9,
           description: "",
           // Display two related fire features in the list of related features.
           displayCount: 1,
-          title: "Sites Data",
+          title: "Maintenance Site Operation Data",
           // Order the related features by the 'GIS_ACRES' in descending order.
           orderByFields: {
             field: "site_id",
@@ -201,14 +234,14 @@ require([
         // // the units and wildfire protection facility statistics table.
         {
           type: "relationship",
-          relationshipId: 6,
+          relationshipId: 10,
           description: "",
           // Display only the one unit
           displayCount: 1,
-          title: "CCTicketsFC Data",
+          title: "Outages Data",
           // Order list of related records by the 'NAME' field in ascending order.
           orderByFields: {
-            field: "siteid",
+            field: "site_id",
             order: "asc"
           }
         },
